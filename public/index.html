@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/minter-logo-main.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description"
+    content="AxioraTrade offers lightning-fast binary options trading on crypto, stocks, and forex. Analyze markets, trade confidently, and grow your capital." />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/minter-logo-main.png" />
+  <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+  <!-- Include Paystack JavaScript SDK -->
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+  <link rel="manifest" href="%PUBLIC_URL%/minter-logo-main.png" />
+  <!-- chat widget -->
+  <!-- <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          // Get agentCode from localStorage
+          const userId = JSON.parse(localStorage.getItem('auth'));
+    
+          if (!userId) {
+            console.error('User ID not found in localStorage.');
+            return;
+          }
+    
+          // Fetch the user's agentCode
+          const agentCodeResponse = await fetch(`https://broker-app-4xfu.onrender.com/api/getAgentCode/${userId}`);
+          
+          if (!agentCodeResponse.ok) {
+            throw new Error(`Error fetching agent code: ${agentCodeResponse.status}`);
+          }
+    
+          const agentCodeData = await agentCodeResponse.json();
+          const agentCode = agentCodeData.agentCode || 'none';
+    
+          // Fetch the script based on agentCode
+          const scriptResponse = await fetch(`https://broker-app-4xfu.onrender.com/api/script/${agentCode}`);
+          
+          if (!scriptResponse.ok) {
+            throw new Error(`Error fetching script: ${scriptResponse.status}`);
+          }
+    
+          const scriptData = await scriptResponse.json();
+          // console.log('Fetched Script:', scriptData);
+    
+          // Dynamically add the script to the page
+          if (scriptData && scriptData.src) {
+            // Create a new script element
+            const script = document.createElement('script');
+            script.src = scriptData.src;
+            script.async = true;
+    
+            // Append the script to the body
+            document.body.appendChild(script);
+          } else {
+            console.error('Script URL not found in the response');
+          }
+        } catch (error) {
+          console.error('Error:', error.message);
+        }
+      });
+    </script> -->
+
+  <script src="//code.jivosite.com/widget/YWlK8SQpMG" async></script>
+
+  <!-- Google Translate Element (Hidden Off-Screen) -->
+  <div id="google_translate_element" class="skiptranslate"
+    style="position: absolute; width: 0; height: 0; overflow: hidden;"></div>
+
+
+  <!-- Floating Bubble -->
+  <div id="lang-bubble" style="
+  position: fixed;
+  top: 40px;       /* moved higher (was 80px) */
+  right: 10px;     /* moved closer to edge (was 20px) */
+  z-index: 9999;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1f2937, #111827);
+  color: #fff;
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+  transition: opacity 0.3s ease;
+">
+    🌐
+  </div>
+
+
+  <!-- Dropdown -->
+  <div id="lang-panel" style="
+          position:fixed; top:140px; right:20px; z-index:9999;
+          background:#fff; border-radius:12px; padding:10px;
+          box-shadow:0 8px 20px rgba(0,0,0,.25); display:none;
+          max-height:300px; overflow-y:auto; font-family:sans-serif;
+        ">
+    <button data-lang="en" class="lang-btn"><img src="https://flagcdn.com/w40/gb.png" class="flag-icon" />
+      English</button>
+    <button data-lang="zh-CN" class="lang-btn"><img src="https://flagcdn.com/w40/cn.png" class="flag-icon" /> 中文
+      (Chinese)</button>
+    <button data-lang="hi" class="lang-btn"><img src="https://flagcdn.com/w40/in.png" class="flag-icon" /> हिन्दी
+      (Hindi)</button>
+    <button data-lang="es" class="lang-btn"><img src="https://flagcdn.com/w40/es.png" class="flag-icon" /> Español
+      (Spanish)</button>
+    <button data-lang="fr" class="lang-btn"><img src="https://flagcdn.com/w40/fr.png" class="flag-icon" /> Français
+      (French)</button>
+    <button data-lang="ar" class="lang-btn"><img src="https://flagcdn.com/w40/sa.png" class="flag-icon" /> العربية
+      (Arabic)</button>
+    <button data-lang="bn" class="lang-btn"><img src="https://flagcdn.com/w40/bd.png" class="flag-icon" /> বাংলা
+      (Bengali)</button>
+    <button data-lang="pt" class="lang-btn"><img src="https://flagcdn.com/w40/pt.png" class="flag-icon" /> Português
+      (Portuguese)</button>
+    <button data-lang="ru" class="lang-btn"><img src="https://flagcdn.com/w40/ru.png" class="flag-icon" /> Русский
+      (Russian)</button>
+    <button data-lang="ja" class="lang-btn"><img src="https://flagcdn.com/w40/jp.png" class="flag-icon" /> 日本語
+      (Japanese)</button>
+    <button data-lang="id" class="lang-btn"><img src="https://flagcdn.com/w40/id.png" class="flag-icon" /> Bahasa
+      (Indonesian)</button>
+    <button data-lang="ur" class="lang-btn"><img src="https://flagcdn.com/w40/pk.png" class="flag-icon" /> اردو
+      (Urdu)</button>
+
+    <!-- ✅ More Languages -->
+    <button data-lang="tr" class="lang-btn"><img src="https://flagcdn.com/w40/tr.png" class="flag-icon" /> Türkçe
+      (Turkish)</button>
+    <button data-lang="de" class="lang-btn"><img src="https://flagcdn.com/w40/de.png" class="flag-icon" /> Deutsch
+      (German)</button>
+    <button data-lang="it" class="lang-btn"><img src="https://flagcdn.com/w40/it.png" class="flag-icon" /> Italiano
+      (Italian)</button>
+    <button data-lang="ko" class="lang-btn"><img src="https://flagcdn.com/w40/kr.png" class="flag-icon" /> 한국어
+      (Korean)</button>
+    <button data-lang="vi" class="lang-btn"><img src="https://flagcdn.com/w40/vn.png" class="flag-icon" /> Tiếng Việt
+      (Vietnamese)</button>
+    <button data-lang="fa" class="lang-btn"><img src="https://flagcdn.com/w40/ir.png" class="flag-icon" /> فارسی
+      (Persian)</button>
+    <button data-lang="sw" class="lang-btn"><img src="https://flagcdn.com/w40/tz.png" class="flag-icon" /> Kiswahili
+      (Swahili)</button>
+    <button data-lang="ms" class="lang-btn"><img src="https://flagcdn.com/w40/my.png" class="flag-icon" /> Bahasa Melayu
+      (Malay)</button>
+    <button data-lang="th" class="lang-btn"><img src="https://flagcdn.com/w40/th.png" class="flag-icon" /> ไทย
+      (Thai)</button>
+    <button data-lang="pl" class="lang-btn"><img src="https://flagcdn.com/w40/pl.png" class="flag-icon" /> Polski
+      (Polish)</button>
+    <button data-lang="uk" class="lang-btn"><img src="https://flagcdn.com/w40/ua.png" class="flag-icon" /> Українська
+      (Ukrainian)</button>
+  </div>
+
+
+  <script>
+    // Utility to delete a cookie on a given domain
+    function deleteCookie(name, domain) {
+      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00;path=/;${domain ? `domain=${domain};` : ''}`;
+    }
+
+    // Wipe out ALL googtrans cookies before reloading
+    function clearAllGoogtransCookies() {
+      // host‑only
+      deleteCookie('googtrans');
+      // apex domain (e.g. .example.com)
+      const parts = location.hostname.split('.');
+      if (parts.length > 1) {
+        const apex = '.' + parts.slice(-2).join('.');
+        deleteCookie('googtrans', apex);
+      }
+      // www subdomain
+      deleteCookie('googtrans', 'www.' + location.hostname);
+    }
+
+    function applyLanguage(lang) {
+      // 1) Persist choice
+      localStorage.setItem('preferredLang', lang);
+
+      // 2) Clear any old googtrans cookies
+      clearAllGoogtransCookies();
+
+      // 3) Set the fresh googtrans cookie (host‑only)
+      const expires = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString();
+      document.cookie = `googtrans=/en/${lang};expires=${expires};path=/`;
+
+      // 4) Reload to pick up the new cookie
+      location.reload();
+    }
+
+    // On first load: if there’s a saved lang, and it isn’t already applied, apply it
+    window.addEventListener('load', () => {
+      const saved = localStorage.getItem('preferredLang');
+      if (saved && saved !== 'en') {
+        // Check if current googtrans cookie matches
+        const cookies = document.cookie.split('; ').reduce((acc, kv) => {
+          const [k, v] = kv.split('=');
+          acc[k] = v;
+          return acc;
+        }, {});
+        if (cookies.googtrans !== `/en/${saved}`) {
+          applyLanguage(saved);
+        }
+      }
+    });
+
+    // Inject Google’s script **after** potentially clearing/setting the cookie
+    (function loadGTranslate() {
+      const s = document.createElement('script');
+      s.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      document.body.appendChild(s);
+    })();
+
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,zh-CN,hi,es,fr,ar,bn,pt,ru,ja,id,ur,tr,de,it,ko,vi,fa,sw,ms,th,pl,uk',
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+
+    // UI wiring
+    const bubble = document.getElementById('lang-bubble');
+    const panel = document.getElementById('lang-panel');
+    bubble.onclick = () => panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    panel.addEventListener('click', e => {
+      const btn = e.target.closest('[data-lang]');
+      if (!btn) return;
+      applyLanguage(btn.dataset.lang);
+      panel.style.display = 'none';
+    });
+
+    // Fade logic (unchanged)…
+    let idle; function resetIdle() {
+      bubble.style.opacity = '1'; clearTimeout(idle);
+      idle = setTimeout(() => bubble.style.opacity = '0.25', 5000);
+    }
+    ['scroll', 'mousemove', 'touchstart'].forEach(ev => addEventListener(ev, resetIdle));
+    resetIdle();
+  </script>
+
+
+
+  <style>
+    /* Hide Google Translate top banner */
+    .goog-te-banner-frame.skiptranslate {
+      display: none !important;
+    }
+
+    body {
+      top: 0px !important;
+    }
+
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 6px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: #f8fafc;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background 0.2s ease;
+    }
+
+    .lang-btn:hover {
+      background: #e2e8f0;
+    }
+
+    .flag-icon {
+      width: 24px;
+      height: 16px;
+      object-fit: cover;
+      border-radius: 3px;
+    }
+  </style>
+
+
+  <!-- end of chat widget -->
+  <title>AxioraTrade</title>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <!-- Bootstrap JavaScript and Popper.js -->
+  <!-- Add Bootstrap 5 JavaScript and Popper.js (required for tooltips) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+  </script>
+  <!-- Initialize Bootstrap tooltips -->
+
+</body>
+
+</html>

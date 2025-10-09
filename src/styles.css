@@ -1,0 +1,1142 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@200&family=Montserrat:ital,wght@0,400;0,900;1,900&family=Overpass&family=Poppins:wght@200;300;700&family=Roboto&family=Victor+Mono:wght@100&display=swap');
+
+/* For WebKit-based browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 10px;
+  /* Adjust the width to your preference */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: grey;
+  /* Set the thumb color to grey */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  /* Set the track color to a light grey */
+}
+
+.active {
+  /* background-color: rgba(197, 182, 182, 0.2); */
+  border-radius: 50%;
+  /* color: #9F00FF !important; */
+  text-align: center;
+}
+
+.no-bg {
+  background: none !important;
+}
+
+.no-bg:hover {
+  color: #9F00FF;
+  border: 2px solid #9F00FF;
+}
+
+.bg-theme {
+  background: linear-gradient(45deg, #6D00FF, #9F00FF);
+  border: none;
+}
+
+.bg-theme:hover {
+  background: linear-gradient(45deg, #6D00FF, #9F00FF);
+}
+
+.text-theme {
+  color: #9F00FF;
+}
+
+.sc-rank {
+  position: fixed;
+  bottom: 12%;
+}
+
+a {
+  color: white !important;
+}
+
+.navBottom {
+  justify-content: space-around !important;
+  padding: 5rem;
+}
+
+.bg-light-sec {
+  background: #F0F0F0;
+}
+
+.trophy {
+  color: #fff;
+  border-radius: 50%;
+  padding: 8px;
+  background: linear-gradient(45deg, #6D00FF, #9F00FF);
+  border: none;
+}
+
+.ctOne:hover svg,
+.ctTwo:hover svg,
+.ctThree:hover svg {
+  transform: translateX(5px);
+  /* Adjust the value as needed */
+  transition: 0.3s ease;
+}
+
+.ex-btn {
+  width: 50% !important;
+  border-radius: 30px !important;
+  font-weight: 600 !important;
+}
+
+.ex-btn2 {
+  border-radius: 50%;
+}
+
+.increase_size {
+  padding: 3rem;
+}
+
+.bolder {
+  /* font-size: 40px; */
+  font-weight: bolder;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.btn-theme {
+  background: #3A7BD5;
+  color: #fff;
+  border: none;
+  padding: 10px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: end;
+  /* margin-left: 67%; */
+
+}
+
+.btn-theme-default {
+  background: #3A7BD5;
+  color: #fff;
+  border: none;
+  padding: 10px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: end;
+  /* margin-left: 67%; */
+
+}
+
+.btn-theme a {
+  text-decoration: none !important;
+}
+
+.btn-theme-default a {
+  text-decoration: none !important;
+}
+
+.bottom-panel {
+  position: fixed;
+  bottom: -20%;
+  /* Adjust this value to move the panel up */
+  left: 50%;
+  /* padding: 50%; */
+  transform: translateX(-50%);
+  /* Center the panel horizontally */
+  width: 100%;
+  /* Set width to 100% */
+  background-color: #e2ecf0;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  transition: transform 0.3s;
+  z-index: 1000;
+  /* Adjust this value to ensure the panel appears above the navbar */
+}
+
+/* Rest of your CSS remains unchanged */
+/* Style the scrollbar */
+.table-responsive::-webkit-scrollbar {
+  width: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.bottom-panel.expanded {
+  transform: translateX(-50%) translateY(-30px);
+  bottom: 0%;
+}
+
+.toggle-button {
+  display: block;
+  margin: 0 auto;
+}
+
+.input-fields {
+  margin-top: 20px;
+}
+
+.homeImg {
+  width: 40px;
+}
+
+
+.fund-wallet-box {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.payment-box-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.payment-box {
+  flex: 1 1 30%;
+  /* Flex-basis of 30% to ensure 3 boxes per row */
+  /* min-width: 250px; */
+}
+
+@media (max-width: 768px) {
+  .payment-box {
+    flex: 1 1 100%;
+    /* Full width for smaller screens */
+  }
+}
+
+
+/* navigation */
+.navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 60px;
+  background-color: #f8f9fa;
+  transition: transform 0.3s;
+}
+
+.navigation.active {
+  transform: translateX(0);
+}
+
+/* ... (existing styles) ... */
+
+.nav-toggler {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.offcanvas.show {
+  transform: translateX(0);
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Adjust opacity as needed */
+  z-index: 2001;
+  /* Ensure the backdrop is above the other content */
+}
+
+.modal {
+  z-index: 2001 !important;
+  position: absolute !important;
+}
+
+.home-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: #f4f4f5;
+  overflow-y: auto;
+  /* background: url('../public/circles-squares-background-design.jpg'); */
+  /* Image by <a href="https://www.freepik.com/free-photo/circles-squares-background-design_9590690.htm#query=background%20image%20design%20for%20web%20app&position=14&from_view=search&track=ais">Freepik</a> */
+  /* background-position: center 50px; */
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 1;
+}
+
+
+
+.home-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  filter: blur(5px);
+  /* Adjust the blur amount */
+  z-index: -1;
+}
+
+.second_welcome_elements p {
+  font-size: 12px;
+  width: 70px;
+  padding: 0;
+  font-weight: 400;
+}
+
+.border-theme {
+  border: 2px solid #9F00FF;
+}
+
+.border-top-theme {
+  font-family: 'Montserrat', sans-serif;
+  border-top: 2px solid #9F00FF;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.site-nav {
+  position: fixed;
+  width: 60px;
+  /* Default narrow width */
+  height: 100% !important;
+  /* bottom: 10px; */
+  /* top: 10px; */
+  background: #f4f4f5 !important;
+  /* Glass effect */
+  /* left: 1.5%; */
+  border-radius: 10px;
+  z-index: 500 !important;
+  transition: width 0.3s ease-in-out;
+  overflow: hidden;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(10px);
+  /* Glassmorphism blur effect */
+  border: 2px solid transparent;
+  box-shadow: 6px 0 12px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Gradient border effect */
+/* .site-nav:hover {
+  border-image: linear-gradient(135deg, #9F00FF, #00FFFF) 1;
+  box-shadow: 0 0 20px rgba(159, 0, 255, 0.8), 0 0 30px rgba(0, 255, 255, 0.5);
+} */
+
+.site-nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.site-nav li {
+  width: 100%;
+  /* margin-bottom: 10px; */
+  /* flex-grow: 1; */
+  display: flex;
+}
+
+/* Fix logout button alignment */
+.site-nav a,
+.site-nav button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 8px;
+  /* border-top-left-radius: 50px; */
+  /* border-bottom-left-radius: 50px; */
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+  position: relative;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Hover with neon glow & gradient */
+.site-nav a.active {
+  background: linear-gradient(135deg, #5EE7DF, #3A7BD5);
+  /* box-shadow: 0 0 10px rgba(159, 0, 255, 0.7); */
+}
+
+
+/* Icon color transition */
+
+/* Ensure spans only turn white on hover (no neon glow) */
+.site-nav a:hover span,
+.site-nav button:hover span {
+  color: #3A7BD5;
+  /* Just turns white, no glow */
+  text-shadow: none;
+  filter: none;
+}
+
+/* Keep neon glow effect only on icons */
+.site-nav a:hover svg {
+  color: #3A7BD5 !important;
+  filter: drop-shadow(0 0 12px rgba(58, 123, 213, 0.9)) drop-shadow(0 0 24px rgba(58, 123, 213, 0.6));
+  transition: color 0.2s ease, filter 0.2s ease;
+}
+
+/* Special red glow effect for logout button icon */
+.site-nav button:hover,
+.site-nav button span:hover {
+  color: #FF4444 !important;
+  /* Change icon color */
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.8) !important;
+  /* Apply neon glow */
+}
+
+
+/* Animated underline effect */
+/* .site-nav a::before {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #9F00FF;
+  transition: all 0.3s ease-in-out;
+} */
+
+.site-nav a:hover::before {
+  width: 100%;
+  left: 0;
+}
+
+.site-nav a svg {
+  margin-right: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.site-nav a span,
+.site-nav button span {
+  display: none;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.expand-head {
+  display: none;
+}
+
+/* Expand Navbar on Larger Screens */
+@media (min-width: 1073px) {
+  .site-nav {
+    width: 190px;
+  }
+
+  .expand-head {
+    display: block;
+  }
+
+
+
+  .site-nav a,
+  .site-nav button {
+    justify-content: flex-start;
+    border-radius: 1px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+  }
+
+  .site-nav a svg {
+    margin-right: 10px;
+  }
+
+  .site-nav a span,
+  .site-nav button span {
+    display: inline;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1073px) {
+  .collapse-header {
+    display: none !important;
+  }
+
+  .collapse-hr {
+    display: block !important;
+  }
+}
+
+@media (min-width: 1074px) {
+  .collapse-header {
+    display: block !important;
+  }
+
+  .collapse-hr {
+    display: none !important;
+  }
+}
+
+
+/* ... (existing styles) ... */
+
+.wallet-info {
+  border-radius: 10px;
+  padding: 10px;
+  /* background: linear-gradient(45deg, #6a11cb, #2575fc); */
+  color: #2ecc71;
+}
+
+.qr-code {
+  width: 150px;
+  height: 150px;
+  border-radius: 8px;
+}
+
+.wallet-address {
+  font-weight: bold;
+}
+
+.copy-btn {
+  /* background: #2ecc71; */
+  color: #2ecc71;
+  border: 2px solid #2ecc71;
+  padding: 5px 10px;
+  border-radius: 18px;
+  cursor: pointer;
+}
+
+.copy-btn:hover {
+  color: #2ecc71;
+  border: 2px solid #2ecc71;
+}
+
+.border-gradient {
+  /* border: 2px solid; */
+  /* border-image-source: linear-gradient(to right, #6a11cb, #2575fc); */
+  border-image-slice: 1;
+}
+
+
+
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-input {
+  width: 100%;
+  padding: 12px;
+  padding-right: 40px;
+  /* Space for the eye icon */
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+}
+
+.eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  /* Adjust as needed */
+  transform: translateY(-50%);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 5px;
+  color: rgba(151, 145, 145, 0.7);
+  transition: color 0.3s ease;
+}
+
+.eye-icon:hover {
+  color: #c5bfbf;
+}
+
+.eye-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+
+/* Overlay covers the whole screen */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(240, 245, 255, 0.95) 5%, rgba(230, 240, 250, 0.95) 50%, rgba(255, 255, 245, 0.95) 95%);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 9999;
+  /* On top of everything */
+}
+
+.gradient-text {
+  color: #3A7BD5;
+  font-weight: bold !important;
+}
+
+
+.cancel-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #dc3545;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* nav list */
+.navigation-list {
+  flex-direction: column;
+  align-items: start;
+  padding: 2.5rem;
+  overflow-y: scroll;
+}
+
+.navigation-canvas {
+  border-top-right-radius: 30px !important;
+  border-bottom-right-radius: 30px !important;
+  z-index: 2009 !important;
+  background: #f0f3f5;
+  width: 25% !important;
+}
+
+.navigation-close {
+  position: fixed;
+  top: 20px;
+  right: 40px;
+  background-color: white;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.navigation-linkOne {
+  font-size: 23px;
+  font-weight: 500;
+  text-decoration: none;
+  color: black !important;
+}
+
+.navigation-link {
+  margin-top: 3rem;
+  font-size: 23px;
+  font-weight: 500;
+  text-decoration: none;
+  color: black !important;
+}
+
+.profile-offNav {
+  border-bottom: 1px solid gray;
+}
+
+.profile-state {
+  margin-top: -8px;
+}
+
+.column {
+  flex-direction: column;
+  align-items: start;
+}
+
+.nav-img {
+  border-radius: 50%;
+}
+
+.navigaion-img {
+  width: 80%;
+}
+
+#id0 {
+  fill: #0302CB;
+  stroke: wheat;
+}
+
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  width: 50%;
+  background-color: #ccc;
+  border-radius: 30px;
+}
+
+.toggle-btn button {
+  flex: 1;
+  padding: 10px;
+  background-color: #ccc;
+  border: none;
+  cursor: pointer;
+}
+
+.toggle-btn button.active {
+  background: linear-gradient(to right, #200066, #0302CB, #00E0FF) !important;
+  color: #fff;
+}
+
+#publicBtn {
+  border-radius: 30px;
+}
+
+#standardBtn {
+  border-radius: 30px;
+}
+
+#executiveBtn {
+  border-radius: 30px;
+}
+
+/* Add this CSS to your LoadingPageCarousel.css or your preferred CSS file */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  /* height: 100%; */
+  border: 2px solid green;
+}
+
+.carousel {
+  max-width: 100%;
+  height: auto;
+}
+
+.continue-btn {
+  border: none;
+  background-color: transparent !important;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Style for the indicator container */
+.carousel-indicator {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  /* Adjust the margin as needed */
+}
+
+/* Style for the indicator dots */
+.indicator-dot {
+  width: 10px;
+  /* Adjust the width of the dots */
+  height: 10px;
+  /* Adjust the height of the dots */
+  background-color: #0000FE;
+  /* Default color for inactive dots */
+  border-radius: 30px;
+  /* Make them circular */
+  margin: 0 3.5px;
+  /* Adjust the spacing between dots */
+  cursor: pointer;
+}
+
+/* Style for the active dot */
+.current {
+  background-color: #0000FE;
+  /* Change the color for the active dot */
+  transform: scale(1.2);
+  /* Increase the size of the active dot */
+  width: 28px;
+  transform: rotateY(360deg);
+  transition: transform 0.3s ease;
+  /* Add a smooth transition */
+}
+
+
+
+.unavailable {
+  font-size: 100%;
+}
+
+/* Add this CSS code to your LoadingPageCarousel.css or your preferred CSS file */
+
+/* Default styles */
+.carousel-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.carousel-nav-btn {
+  background-color: transparent;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.bottom-right-modal {
+  position: fixed;
+  background: white;
+  bottom: 95px;
+  min-width: 250px;
+  /* width: 35%; */
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  transition: 0.4s;
+  right: 20px;
+  padding: 25px;
+  z-index: 2001;
+  /* Ensure the backdrop is above the other content */
+}
+
+.middle-modal {
+  position: fixed;
+  background: white;
+  bottom: 30%;
+  min-width: 300px;
+  /* height: 300px; */
+  /* width: 35%; */
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  transition: 0.4s;
+  right: 30%;
+  padding: 25px;
+  z-index: 2001;
+  /* Ensure the backdrop is above the other content */
+}
+
+/* .modal-content {
+  background-color: white;
+  border: 1px solid #9F00FF;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  padding: 80px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(-50%, 50%);
+  z-index: 2001;
+} */
+.flex-straight {
+  flex-direction: column;
+}
+
+footer {
+  margin-top: 5rem;
+  background: #f1f0f0;
+  padding: 4rem;
+}
+
+footer ul {
+  list-style: none;
+}
+
+footer ul li {
+  text-decoration: none;
+}
+
+footer ul li a {
+  text-decoration: underline;
+  margin: 1rem;
+  margin-top: 2rem;
+  color: black !important;
+}
+
+.remove-default-btn {
+  border: none;
+  background: white;
+  border-radius: 50%;
+}
+
+.remove-default-btn-clear {
+  border: none;
+  background: none;
+  border-radius: 50%;
+}
+
+.remove-default-btn-clear:hover {
+  background: none !important;
+}
+
+.remove-default-btn:hover {
+  background: none !important;
+}
+
+.modal-content .header__logout {
+  border: 1px solid #9F00FF;
+  border-radius: 4px;
+}
+
+.modal-content button {
+  display: block;
+  margin-top: 10px;
+}
+
+.drop-list {
+  overflow-y: scroll;
+}
+
+.taskBox {
+  overflow-y: scroll;
+}
+
+.task-btn {
+  height: 80%;
+  outline: none;
+  background: linear-gradient(45deg, #6D00FF, #9F00FF);
+  border: none;
+  padding: 9px;
+  color: white;
+  border-radius: 9px;
+}
+
+#imageInput:hover {
+  border: #9F00FF;
+}
+
+
+/* task checker */
+/* TaskManager.css */
+
+.custom-task-list {
+  border: 2px solid gray;
+  /* height: 100%; */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  overflow-y: scroll;
+}
+
+.custom-task-card {
+  background-color: white;
+  margin: auto;
+  width: 100%;
+  /* height: 400px; */
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 400px;
+}
+
+
+.custom-task-image {
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.custom-task-description {
+  margin-top: 10px;
+}
+
+.custom-button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+@keyframes rotate360 {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating-element {
+  animation: rotate360 2s linear infinite;
+  /* Adjust the duration as needed */
+}
+
+.cl-btn {
+  background: linear-gradient(45deg, #6D00FF, #9F00FF);
+  border: none;
+  color: white;
+  border-radius: 8px;
+  padding: 5px;
+}
+
+.fi-btn {
+  background: linear-gradient(45deg, #6D00FF, #9F00FF);
+  border: none;
+  outline: none;
+  color: white;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.success-btn {
+  color: #0b7a25;
+}
+
+.bonus-btn {
+  height: 80%;
+  outline: none;
+  background: #0b7a25;
+  border: none;
+  padding: 9px;
+  color: white;
+  border-radius: 9px;
+}
+
+.i-task {
+  border-bottom: 1px solid gray;
+}
+
+.i-task .text-theme {
+  color: #9F00FF;
+}
+
+.notification {
+  background-color: rgb(207, 207, 207);
+  text-align: center;
+  border-bottom: 2px solid #9F00FF;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 1268px) {
+  .carousel-nav {
+    width: 100%;
+    flex-direction: column;
+    /* Stack elements vertically on smaller screens */
+    align-items: center;
+  }
+
+  .carousel-indicator {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    /* Adjust spacing as needed */
+  }
+
+  .carousel-nav-btn {
+    margin-top: 10px;
+    /* Add margin to separate the button from indicators */
+  }
+}
+
+@media (min-width: 850px) {
+  .navigation-canvas {
+    width: 25% !important;
+  }
+
+
+  .site-nav,
+  .site-nav-checker {
+    height: 90%;
+  }
+}
+
+@media(min-width: 431px) {
+  .unavailable p {
+    justify-content: center;
+    align-items: start;
+  }
+
+}
+
+@media (max-width: 850px) and (min-width: 650px) {
+  .navigation-canvas {
+    width: 45% !important;
+  }
+}
+
+@media (max-width: 650px) and (min-width: 430px) {
+  .navigation-canvas {
+    width: 50% !important;
+  }
+}
+
+@media(max-width: 576px) {
+  .moreOptions {
+    height: 220px !important;
+  }
+
+  .sm-justify {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .i-task {
+    flex-direction: column;
+  }
+
+  .btn-theme {
+    margin: auto;
+  }
+
+  /* .bottom-right-modal{
+    width: 55%;
+  } */
+}
+
+@media (max-width: 430px) {
+  .navigation-canvas {
+    width: 70% !important;
+  }
+
+  .sm-col {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .u-e {
+    /* font-size: 12px; */
+    text-wrap: wrap;
+  }
+
+  .middle-modal {
+    right: 20px;
+  }
+}
+
+@media(max-width: 360px) {
+  .site-nav {
+    padding: 1px;
+  }
+
+}
