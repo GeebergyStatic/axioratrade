@@ -282,7 +282,7 @@ input {
 .signup__title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #9F00FF;
+  color: #3A7BD5;
   padding: 1.25rem 0 0.5rem 1.25rem;
 }
 
@@ -383,7 +383,7 @@ input {
 }
 
 .signup__btn {
-  background-color: #9F00FF;
+  background-color: #3A7BD5;
   width: 100%;
   padding: 12px;
   border-radius: 8px;

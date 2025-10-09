@@ -6,15 +6,15 @@ import Context from "../Context";
 import validator from "validator";
 // import firebase authentication.
 import { auth, realTimeDb, db } from "../firebase";
-import {getAuth,createUserWithEmailAndPassword} from 'firebase/auth'
-import { ref, set} from 'firebase/database'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { ref, set } from 'firebase/database'
 // import uuid to generate id for users.
 import { v4 as uuidv4 } from "uuid";
 import { getFirestore, getDoc, setDoc, doc, updateDoc, collection, query, where, getDocs, increment } from 'firebase/firestore';
 import { ToastContainer, toast } from "react-toastify";
 import { getStorage, ref as Ref, getDownloadURL, listAll } from "firebase/storage";
 import "react-toastify/dist/ReactToastify.css";
-import {useLocation, useSearchParams} from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import Loading from './Loading';
 import Select from 'react-select';
 import fetchCurrencies from "./fetchCurrencies";
@@ -32,7 +32,7 @@ function SignUp(props) {
   const [checkPassword, setCheckPassword] = useState('');
   const [refParam, setRefParam] = useState('');
   const [loading, setLoading] = useState(true); // Loading state
-  
+
   const [currencySymbol, setCurrencySymbol] = useState("");
   const [country, setCountry] = useState("");
 
@@ -57,17 +57,17 @@ function SignUp(props) {
   const [currencyOptions, setCurrencyOptions] = useState([]);
 
   useEffect(() => {
-      const fetchCurrencyData = async () => {
-          const currencies = await fetchCurrencies();
-          setCurrencyOptions(currencies);
-      };
+    const fetchCurrencyData = async () => {
+      const currencies = await fetchCurrencies();
+      setCurrencyOptions(currencies);
+    };
 
-      fetchCurrencyData();
+    fetchCurrencyData();
   }, []);
 
   const handleCurrencyChange = (selectedOption) => {
-      // Save selectedOption.value to your database
-      setCurrencySymbol(selectedOption.value);
+    // Save selectedOption.value to your database
+    setCurrencySymbol(selectedOption.value);
   };
 
   // country choose
@@ -76,24 +76,24 @@ function SignUp(props) {
 
   useEffect(() => {
     const fetchCountryData = async () => {
-        try {
-            setLoading(true); // Set loading to true before fetching
-            const countries = await fetchCountries();
-            setCountryOptions(countries);
-        } catch (error) {
-            console.error("Error fetching countries:", error);
-        } finally {
-            setLoading(false); // Set loading to false after fetching
-        }
+      try {
+        setLoading(true); // Set loading to true before fetching
+        const countries = await fetchCountries();
+        setCountryOptions(countries);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
+      }
     };
 
     fetchCountryData();
-}, []);
+  }, []);
 
-const handleCountryChange = (selectedOption) => {
-  setCountry(selectedOption.value);
-  // console.log("Selected country:", selectedOption.value);
-};
+  const handleCountryChange = (selectedOption) => {
+    setCountry(selectedOption.value);
+    // console.log("Selected country:", selectedOption.value);
+  };
 
   const location = useLocation();
 
@@ -101,7 +101,7 @@ const handleCountryChange = (selectedOption) => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const referralCode = params.get('ref');
-    
+
     // Associate referral code with the sign-up process
     // This could involve storing the referral code in state or passing it to an API call
     setRefParam(referralCode);
@@ -119,7 +119,7 @@ const handleCountryChange = (selectedOption) => {
       setAgentCode(code);
     }
   }, [searchParams]);
-  
+
 
 
   // create refs to get user's email, user's password, user's confirm password.
@@ -176,7 +176,7 @@ const handleCountryChange = (selectedOption) => {
    * @returns 
    */
   const isSignupValid = ({ fullName, email, phone, password, confirmPassword, countryCheck, symbolCheck }) => {
-    if (validator.isEmpty(fullName)){
+    if (validator.isEmpty(fullName)) {
       // alert("Please input your full name");
       toast.warning("Please input your full name", {
         position: toast.POSITION.TOP_CENTER,
@@ -216,7 +216,7 @@ const handleCountryChange = (selectedOption) => {
       });
       return false;
     }
-    if (validator.isEmpty(password) || !validator.isLength(password, {min: 6})) {
+    if (validator.isEmpty(password) || !validator.isLength(password, { min: 6 })) {
       // alert("Please input your password. You password must have at least 6 characters");
       toast.warning("Please input your password. Your password must have at least 6 characters", {
         position: toast.POSITION.TOP_CENTER,
@@ -325,14 +325,14 @@ const handleCountryChange = (selectedOption) => {
       countryCheck: country || '',
       symbolCheck: currencySymbol || '',
     };
-  
+
     // Validate signup data
     if (!isSignupValid(formData)) {
       return;
     }
-  
+
     setIsLoading(true);
-  
+
     try {
       const createUserPayload = async (user) => {
         const userID = user.uid;
@@ -344,57 +344,52 @@ const handleCountryChange = (selectedOption) => {
           userId: userID,
           number: formData.phone,
           role: 'client',
-          balance: 0,
-          deposit: 0,
-          referralsBalance: 0,
           isUserActive: false,
           referralCode: userReferralCode,
           referredBy: refParam ? (await checkReferralCode(refParam)).referrerInfo.userId : 'none',
           agentCode: agentCode || 'none',
           hasPaid: false,
           referralRedeemed: false,
-          referredUsers: 0,
           currencySymbol: formData.symbolCheck,
           country: formData.countryCheck,
-          returns: 0,
         };
       };
-  
+
       let referralData = null;
       if (refParam) {
         // Process referral signup
         referralData = await checkReferralCode(refParam);
-  
+
         if (referralData.status === 'false') {
           throw new Error(referralData.message || 'Invalid Referral Code');
         }
       }
-  
+
       let agentCodeData = null;
       if (agentCode) {
         // Process agent code
         agentCodeData = await checkAgentCode(agentCode);
-  
+
         if (agentCodeData.status === 'false') {
           throw new Error(agentCodeData.message || 'Invalid Agent Code');
         }
       }
-  
+
       const user = await registerWithFirebase(formData.email, formData.password);
       const payLoad = await createUserPayload(user);
-  
+
       // Create user in backend
       await handleUserCreation(user, payLoad);
-  
+
       // Update referrer data if referral code exists
       if (referralData && referralData.status === 'true') {
         await updateReferrerData(referralData.referrerInfo.userId);
       }
-  
+
     } catch (error) {
       console.error('Signup Error:', error.message);
       setIsLoading(false);
-  
+
       const errorMessage = error.message || 'An error occurred';
       if (error.code === 'auth/email-already-in-use') {
         toast.error(`Cannot create your account, ${formData.email} already exists, please try again!`, {
@@ -414,28 +409,28 @@ const handleCountryChange = (selectedOption) => {
       }
     }
   };
-  
-  
+
+
 
 
 
   return (
-    
+
     <div className="signup">
       {/* <ToastContainer /> */}
       <div className="signup__content">
         <div className="signup__container">
-          <div className="signup__title text-theme">Sign Up</div>
+          <div className="signup__title">Sign Up</div>
           <div className="signup__close">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" alt="close"
-          onClick={() => toggleModal(false)} height="20" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
-           <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-          </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" alt="close"
+              onClick={() => toggleModal(false)} height="20" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
+              <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+            </svg>
           </div>
         </div>
         <div className="signup__subtitle"></div>
         <div className="signup__form">
-        <input type="text" placeholder="Username" ref={fullNameRef} />
+          <input type="text" placeholder="Full Name" ref={fullNameRef} />
           <input type="text" placeholder="Email" ref={emailRef} />
           <input
             type="text"
@@ -444,22 +439,22 @@ const handleCountryChange = (selectedOption) => {
             onInput={handleInput} // Restrict input to numbers
           />
           {loading ? (
-                // Render a spinner while loading
-                <div className="spinner-container">
-                    <div className="spinner"></div>
-                    <p>Loading countries...</p>
-                </div>
-            ) : (
-                // Render the Select component once countries are loaded
-                <Select
-                    defaultValue={country}
-                    className="mb-3"
-                    classNamePrefix="react-select"
-                    options={countryOptions}
-                    onChange={handleCountryChange}
-                    placeholder="Select a country"
-                />
-            )}
+            // Render a spinner while loading
+            <div className="spinner-container">
+              <div className="spinner"></div>
+              <p>Loading countries...</p>
+            </div>
+          ) : (
+            // Render the Select component once countries are loaded
+            <Select
+              defaultValue={country}
+              className="mb-3"
+              classNamePrefix="react-select"
+              options={countryOptions}
+              onChange={handleCountryChange}
+              placeholder="Select a country"
+            />
+          )}
           <Select
             defaultValue={currencySymbol}
             className="mb-3"
@@ -467,74 +462,74 @@ const handleCountryChange = (selectedOption) => {
             options={currencyOptions}
             onChange={handleCurrencyChange}
             placeholder="Select a currency"
-        />
+          />
           {/* Password Field */}
-      <div className="d-flex" style={{ position: "relative" }}>
-        <input
-          id="password"
-          placeholder="Password"
-          ref={passwordRef}
-          type={showPassword ? "text" : "password"}
-          onChange={(e) => setCheckPassword(e.target.value)}
-        />
-        {checkPassword && (
-          <button
-            className="p-btn"
-            onClick={() => setShowPassword(!showPassword)}
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            {showPassword ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-eye-slash"
-                viewBox="0 0 16 16"
+          <div className="d-flex" style={{ position: "relative" }}>
+            <input
+              id="password"
+              placeholder="Password"
+              ref={passwordRef}
+              type={showPassword ? "text" : "password"}
+              onChange={(e) => setCheckPassword(e.target.value)}
+            />
+            {checkPassword && (
+              <button
+                className="p-btn"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                }}
               >
-                <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486z" />
-                <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829" />
-                <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709z" />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-eye"
-                viewBox="0 0 16 16"
-              >
-                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
-                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
-              </svg>
+                {showPassword ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-eye-slash"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486z" />
+                    <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829" />
+                    <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709z" />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-eye"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                  </svg>
+                )}
+              </button>
             )}
-          </button>
-        )}
-      </div>
+          </div>
 
-      {/* Confirm Password Field */}
-      <div className="d-flex" style={{ position: "relative" }}>
-        <input
-          id="confirmPassword"
-          placeholder="Confirm Password"
-          ref={confirmPasswordRef}
-          type={showPassword ? "text" : "password"}
-        />
-      </div>
+          {/* Confirm Password Field */}
+          <div className="d-flex" style={{ position: "relative" }}>
+            <input
+              id="confirmPassword"
+              placeholder="Confirm Password"
+              ref={confirmPasswordRef}
+              type={showPassword ? "text" : "password"}
+            />
+          </div>
           <button className="signup__btn" onClick={signup}>
-            
+
             Sign Up
           </button>
-          
+
         </div>
       </div>
       {isLoading && <Loading />}
