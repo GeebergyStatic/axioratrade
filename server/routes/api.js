@@ -143,11 +143,7 @@ const WalletAddress = mongoose.model('WalletAddress', WalletAddressSchema);
 
 const tradeSchema = new mongoose.Schema(
   {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
+    userId: { type: String, required: true },
     symbol: { type: String, required: true },
     invest: { type: Number, required: true },
     leverage: { type: String, required: true },

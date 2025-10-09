@@ -222,7 +222,7 @@ const Dashboard = () => {
                                             style={{
                                                 border: '2px solid #3A7BD5', // or '#6c63ff' etc.
                                                 color: '#3A7BD5',
-                                                padding: '6px 12px',
+                                                padding: '4px 10px',
                                                 borderRadius: '9999px',
                                                 fontWeight: '500',
                                                 background: 'transparent',

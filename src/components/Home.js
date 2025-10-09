@@ -87,8 +87,6 @@ function Home() {
     localStorage.removeItem('new');
   }, []);
 
-  const loading = !userData || !("balance" in userData); // Simple loading check
-
   const spinner = (
     <div className="d-flex justify-content-center align-items-center" style={{ height: "100px" }}>
       <Spinner animation="border" role="status">
@@ -258,11 +256,10 @@ function Home() {
                           <FontAwesomeIcon icon={faWallet} size="sm" />
                           <span className="mx-1">Total deposit</span>
                         </h5>
-                        {loading ? "---" : (
-                          <p className="card-text text-start" style={smaller}>
-                            {formatCurrency(userData.deposit, currencySymbol)}
-                          </p>
-                        )}
+                        <p className="card-text text-start" style={smaller}>
+                          {userData.deposit != null ? formatCurrency(userData.deposit, currencySymbol) : "---"}
+                        </p>
+
                       </div>
                     </div>
                   </div>
@@ -274,11 +271,9 @@ function Home() {
                           <FontAwesomeIcon icon={faExchangeAlt} size="sm" />
                           <span className="mx-1">Profit</span>
                         </h5>
-                        {loading ? "---" : (
-                          <p className="card-text text-start" style={smaller}>
-                            {formatCurrency(userData.profit, currencySymbol)}
-                          </p>
-                        )}
+                        <p className="card-text text-start" style={smaller}>
+                          {userData.profit != null ? formatCurrency(userData.profit, currencySymbol) : "---"}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -291,11 +286,9 @@ function Home() {
                           <FontAwesomeIcon icon={faHourglassHalf} size="sm" />
                           <span className="mx-1">Total Withdrawal</span>
                         </h5>
-                        {loading ? "---" : (
-                          <p className="card-text text-start" style={smaller}>
-                            {formatCurrency(userData.totalWithdrawn, currencySymbol)}
-                          </p>
-                        )}
+                        <p className="card-text text-start" style={smaller}>
+                          {userData.totalWithdrawn != null ? formatCurrency(userData.totalWithdrawn, currencySymbol) : "---"}
+                        </p>
                       </div>
                     </div>
                   </div>

@@ -4,26 +4,31 @@ import { ToastContainer, toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
-import 'font-awesome/css/font-awesome.min.css'; // Import Font Awesome CSS
+import 'font-awesome/css/font-awesome.min.css';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
-
-const TradesTable = ({ userId }) => {
+const TradesTable = () => {
     const { userData } = useUserContext();
+    const userId = userData?.userId;
     const [trades, setTrades] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        if (!userId) return;
+
         const fetchTrades = async () => {
             setLoading(true);
+            setError(null);
+
             try {
                 const response = await axios.get(
                     `https://axioratrade.onrender.com/api/getUserTrades/${userId}`
                 );
+
                 if (response.data.success) {
                     setTrades(response.data.trades);
                 } else {
@@ -40,22 +45,16 @@ const TradesTable = ({ userId }) => {
         fetchTrades();
     }, [userId]);
 
-    const calculateTradeStatus = (createdAt, expiration) => {
+    const calculateTradeStatus = (createdAt, expirationMs) => {
         const now = dayjs();
-        const expirationDate = dayjs(createdAt).add(expiration, "millisecond"); // assuming expiration is in ms
+        const expirationDate = dayjs(createdAt).add(expirationMs, "millisecond");
         return now.isBefore(expirationDate) ? "Ongoing" : "Closed";
     };
 
-    const tradeContainer = {
-        maxWidth: '900px',
-        marginLeft: '19%',
-        background: '#f4f4f5',
-        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
-    }
     return (
-        <div className='container-fluid' style={{ background: '#f4f4f5', height: '100%', width: '100%', position: 'absolute', overflowY: 'hidden', overflowX: 'hidden', paddingBottom: '80px' }}>
-            <div className="transaction-list p-4 rounded shadow-lg" style={tradeContainer}>
-                <div className="overflow-auto">
+        <div className='container-fluid' style={{ background: '#f4f4f5', height: '100%', width: '100%', position: 'relative', paddingBottom: '80px' }}>
+            <div className="transaction-list p-4 rounded shadow-lg" style={{ maxWidth: '900px', margin: '0 auto', background: '#fff', boxShadow: '0 4px 8px rgba(0,0,0,0.2)' }}>
+                <div className="table-responsive">
                     <table className="table table-striped table-hover">
                         <thead className="thead-dark">
                             <tr>
@@ -69,25 +68,41 @@ const TradesTable = ({ userId }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {loading ? <p>Loading trades...</p> : error ? <p>Loading trades...</p> : <p>No trades found.</p>}
-                            {trades.map((trade) => (
-                                <tr key={trade._id}>
-                                    <td>{trade.symbol}</td>
-                                    <td>{trade.invest}</td>
-                                    <td>{trade.leverage}</td>
-                                    <td>{trade.expiration} ms</td>
-                                    <td>{trade.tradeType}</td>
-                                    <td>{calculateTradeStatus(trade.createdAt, trade.expiration)}</td>
-                                    <td>{dayjs(trade.createdAt).format("YYYY-MM-DD HH:mm")}</td>
+                            {loading ? (
+                                <tr>
+                                    <td colSpan="7" className="text-center">
+                                        <Spinner animation="border" size="sm" className="me-2" />
+                                        Loading trades...
+                                    </td>
                                 </tr>
-                            ))}
+                            ) : error ? (
+                                <tr>
+                                    <td colSpan="7" className="text-center text-danger">{error}</td>
+                                </tr>
+                            ) : trades.length === 0 ? (
+                                <tr>
+                                    <td colSpan="7" className="text-center">No trades found.</td>
+                                </tr>
+                            ) : (
+                                trades.map((trade) => (
+                                    <tr key={trade._id}>
+                                        <td>{trade.symbol}</td>
+                                        <td>{trade.invest}</td>
+                                        <td>{trade.leverage}</td>
+                                        <td>{trade.expiration} ms</td>
+                                        <td>{trade.tradeType}</td>
+                                        <td>{calculateTradeStatus(trade.createdAt, trade.expiration)}</td>
+                                        <td>{dayjs(trade.createdAt).format("YYYY-MM-DD HH:mm")}</td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>
-
             </div>
-        </div>);
+            <ToastContainer />
+        </div>
+    );
 };
-
 
 export default TradesTable;
