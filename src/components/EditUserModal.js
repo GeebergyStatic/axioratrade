@@ -19,7 +19,7 @@ const EditUserModal = ({ user, onClose, onUserUpdated }) => {
   const handleSave = async () => {
     setIsLoading(true);
     try {
-      await axios.put(`https://broker-app-4xfu.onrender.com/api/users/${editedUser._id}`, editedUser);
+      await axios.put(`https://axioratrade.onrender.com/api/users/${editedUser._id}`, editedUser);
 
       onUserUpdated(); // Refresh the user list after saving
       onClose(); // Close the modal after saving

@@ -25,78 +25,80 @@ export const UserProvider = ({ children }) => {
   const isMounted = useRef(true);
 
   // ✅ Unified fetch with retry logic
-  const fetchUserData = useCallback(async (userId, retryCount = 0) => {
-    if (!userId) return;
-    setIsLoading(true);
+  const fetchUserData = useCallback(
+    async (userId, retryCount = 0, showLoader = true) => {
+      if (!userId) return;
 
-    try {
-      // timeout for network lag
-      loadingTimeout.current = setTimeout(() => {
+      // Only show loader for the first fetch
+      if (showLoader) setIsLoading(true);
+
+      try {
+        // Show connection warning only on initial attempt
+        if (showLoader) {
+          loadingTimeout.current = setTimeout(() => {
+            if (isMounted.current) {
+              setIsLoading(false);
+              toast.error("Check your internet connection and refresh the page.", {
+                className: "custom-toast",
+              });
+            }
+          }, 15000);
+        }
+
+        const response = await fetch(
+          `https://axioratrade.onrender.com/api/userDetail/${userId}`
+        );
+
+        if (!response.ok) {
+          // Don’t show any toast or notification here
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
         if (isMounted.current) {
-          setIsLoading(false);
-          toast.error("Check your internet connection and refresh the page.", {
-            className: "custom-toast",
+          setUserData({
+            avatar: data.avatar,
+            email: data.email,
+            fullName: data.name,
+            userID: data.userId,
+            agentID: data.agentID,
+            agentCode: data.agentCode,
+            phoneNo: data.number,
+            role: data.role,
+            isUserActive: data.isUserActive,
+            hasPaid: data.hasPaid,
+            deposit: data.deposit,
+            profit: data.profit,
+            totalWithdrawn: data.totalWithdrawn,
+            lastPlan: data.lastPlan,
+            currencySymbol: data.currencySymbol,
+            country: data.country,
+            referralsBalance: data.referralsBalance,
+            referredUsers: data.referredUsers,
+            referralCode: data.referralCode,
           });
         }
-      }, 15000);
 
-      const response = await fetch(
-        `https://broker-app-4xfu.onrender.com/api/userDetail/${userId}`
-      );
+        console.log("User data fetched successfully:", data);
+        clearTimeout(loadingTimeout.current);
+      } catch (error) {
+        console.error("Error fetching user data:", error.message);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        // Silent retries only (no user notification)
+        if (retryCount < 5 && isMounted.current) {
+          const delay = Math.min(5000 * (retryCount + 1), 30000);
+          retryTimeout.current = setTimeout(() => {
+            fetchUserData(userId, retryCount + 1, false); // retry silently
+          }, delay);
+        }
+      } finally {
+        if (isMounted.current && showLoader) setIsLoading(false);
       }
+    },
+    []
+  );
 
-      const data = await response.json();
-
-      if (isMounted.current) {
-        setUserData({
-          avatar: data.avatar,
-          email: data.email,
-          fullName: data.name,
-          userID: data.userId,
-          agentID: data.agentID,
-          agentCode: data.agentCode,
-          phoneNo: data.number,
-          role: data.role,
-          isUserActive: data.isUserActive,
-          hasPaid: data.hasPaid,
-          deposit: data.deposit,
-          profit: data.profit,
-          totalWithdrawn: data.totalWithdrawn,
-          lastPlan: data.lastPlan,
-          currencySymbol: data.currencySymbol,
-          country: data.country,
-          referralsBalance: data.referralsBalance,
-          referredUsers: data.referredUsers,
-          referralCode: data.referralCode,
-        });
-      }
-
-      clearTimeout(loadingTimeout.current);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-
-      // ✅ Retry with exponential backoff (up to 5 retries)
-      if (retryCount < 5 && isMounted.current) {
-        const delay = Math.min(5000 * (retryCount + 1), 30000);
-        console.warn(`Retrying fetch in ${delay / 1000}s...`);
-
-        retryTimeout.current = setTimeout(() => {
-          fetchUserData(userId, retryCount + 1);
-        }, delay);
-      } else if (isMounted.current) {
-        toast.error("Failed to load user data after several attempts.", {
-          className: "custom-toast",
-        });
-      }
-    } finally {
-      if (isMounted.current) setIsLoading(false);
-    }
-  }, []);
-
-  // ✅ Auth listener
   useEffect(() => {
     isMounted.current = true;
 
@@ -118,6 +120,7 @@ export const UserProvider = ({ children }) => {
       clearTimeout(retryTimeout.current);
     };
   }, [fetchUserData]);
+
 
   return (
     <UserContext.Provider value={{ userData, setUserData, currentUser, isLoading, setIsLoading }}>

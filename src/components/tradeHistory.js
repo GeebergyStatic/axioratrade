@@ -22,7 +22,7 @@ const TradesTable = ({ userId }) => {
             setLoading(true);
             try {
                 const response = await axios.get(
-                    `https://broker-app-4xfu.onrender.com/api/getUserTrades/${userId}`
+                    `https://axioratrade.onrender.com/api/getUserTrades/${userId}`
                 );
                 if (response.data.success) {
                     setTrades(response.data.trades);

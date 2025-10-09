@@ -20,7 +20,7 @@ const TransactionList = () => {
     setLoading(true); // Set loading to true before fetching
     try {
       const response = await fetch(
-        `https://broker-app-4xfu.onrender.com/api/getUserTransactions?userID=${userID}`
+        `https://axioratrade.onrender.com/api/getUserTransactions?userID=${userID}`
       );
 
       if (!response.ok) {

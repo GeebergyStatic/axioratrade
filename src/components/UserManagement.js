@@ -22,7 +22,7 @@ const UserManagement = () => {
     setIsLoading(true);
     try {
       // Include the agentID as a query parameter in the API request
-      const response = await axios.get(`https://broker-app-4xfu.onrender.com/api/users?agentID=${agentID}`);
+      const response = await axios.get(`https://axioratrade.onrender.com/api/users?agentID=${agentID}`);
       setUsers(response.data); // Assuming response.data is an array of users
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -35,7 +35,7 @@ const UserManagement = () => {
   //   setIsLoading(true);
   //   try {
   //     // Include the agentID as a query parameter in the API request
-  //     const response = await axios.get(`https://broker-app-4xfu.onrender.com/api/users`);
+  //     const response = await axios.get(`https://axioratrade.onrender.com/api/users`);
   //     setUsers(response.data); // Assuming response.data is an array of users
   //   } catch (error) {
   //     console.error('Error fetching users:', error);
@@ -43,12 +43,12 @@ const UserManagement = () => {
   //     setIsLoading(false);
   //   }
   // };
-  
+
   const handleEditClick = (user) => {
     setSelectedUser(user); // Set the selected user for editing
   };
 
-  const filteredUsers = users.filter(user => 
+  const filteredUsers = users.filter(user =>
     user.userId?.toString().toLowerCase().includes(searchTerm.toLowerCase()) || // ✅ fixed case sensitivity
     user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -102,24 +102,24 @@ const UserManagement = () => {
 
   return (
     <div style={containerStyle}>
-        <Link to='/'><i class="fa fa-arrow-left"></i> Back to home</Link>
+      <Link to='/'><i class="fa fa-arrow-left"></i> Back to home</Link>
       <h1 className='mt-5'>User Management</h1>
       <span className='text-warning mb-1'><FontAwesomeIcon className='mx-2' icon={faInfoCircle} />You can edit and load your clients' accounts from here!</span>
       {/* ✅ Search Bar */}
       <input
-            type="text"
-            placeholder="Search by ID, name, or email..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              padding: '10px',
-              width: '100%',
-              marginTop: '20px',
-              borderRadius: '5px',
-              border: '1px solid #ccc',
-              boxSizing: 'border-box'
-            }}
-          />
+        type="text"
+        placeholder="Search by ID, name, or email..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={{
+          padding: '10px',
+          width: '100%',
+          marginTop: '20px',
+          borderRadius: '5px',
+          border: '1px solid #ccc',
+          boxSizing: 'border-box'
+        }}
+      />
       {isLoading ? (
         <div className="text-center">
           <i className="fa fa-spinner fa-spin fa-3x fa-fw text-light"></i>

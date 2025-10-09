@@ -101,7 +101,7 @@ const WalletBalance = (props) => {
         username,
         description: 'Withdrawal',
       };
-      await fetch(`https://broker-app-4xfu.onrender.com/api/createTransactions`,
+      await fetch(`https://axioratrade.onrender.com/api/createTransactions`,
         {
           method: 'POST',
           headers: {
@@ -146,7 +146,7 @@ const WalletBalance = (props) => {
         username,
         description: 'Withdrawal',
       };
-      await fetch(`https://broker-app-4xfu.onrender.com/api/saveCryptoPayments`,
+      await fetch(`https://axioratrade.onrender.com/api/saveCryptoPayments`,
         {
           method: 'POST',
           headers: {
@@ -181,7 +181,7 @@ const WalletBalance = (props) => {
       console.log(`Debiting user for amount: ${amount}`);
       try {
         const response = await axios.post(
-          'https://broker-app-4xfu.onrender.com/api/debitUser',
+          'https://axioratrade.onrender.com/api/debitUser',
           {
             userId: userID,
             fee: parseFloat(amount), // Ensure fee is a number

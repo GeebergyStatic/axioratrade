@@ -103,7 +103,7 @@ const Dashboard = () => {
                 try {
                     const agentID = generateAgentID();
                     const token = localStorage.getItem("token");
-                    await fetch("https://broker-app-4xfu.onrender.com/api/update-user", {
+                    await fetch("https://axioratrade.onrender.com/api/update-user", {
                         method: "PUT",
                         headers: {
                             "Content-Type": "application/json",

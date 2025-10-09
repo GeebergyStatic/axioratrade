@@ -70,7 +70,7 @@ const TradablePanel = ({
 
         setIsSubmitting(true);
         try {
-            const res = await fetch("https://broker-app-4xfu.onrender.com/api/saveTrade", {
+            const res = await fetch("https://axioratrade.onrender.com/api/saveTrade", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)

@@ -19,7 +19,7 @@ const BtcTaskList = () => { // Rename the function to start with an uppercase le
 
   const fetchPendingBtcDeposits = async (agentID) => {
     try {
-      const response = await axios.get(`https://broker-app-4xfu.onrender.com/api/getBtcDeposits/${agentID}`);
+      const response = await axios.get(`https://axioratrade.onrender.com/api/getBtcDeposits/${agentID}`);
       const transactions = response.data; // axios automatically parses JSON responses
       setBtcTx(transactions);
     } catch (error) {
@@ -29,20 +29,20 @@ const BtcTaskList = () => { // Rename the function to start with an uppercase le
 
   // const fetchPendingBtcDeposits = async () => {
   //   try {
-  //     const response = await axios.get(`https://broker-app-4xfu.onrender.com/api/getBtcDeposits`);
+  //     const response = await axios.get(`https://axioratrade.onrender.com/api/getBtcDeposits`);
   //     const transactions = response.data; // axios automatically parses JSON responses
   //     setBtcTx(transactions);
   //   } catch (error) {
   //     console.error('Error fetching BTC deposits:', error.message);
   //   }
   // };
-  
+
 
   // change state of btc tasks (transactions and temp data);
   const changePaymentStatus = async (transactionId, newStatus, userId, amount, txId) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`https://broker-app-4xfu.onrender.com/api/updatePaymentStatusAndDelete/${transactionId}`, {
+      const response = await fetch(`https://axioratrade.onrender.com/api/updatePaymentStatusAndDelete/${transactionId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -74,36 +74,36 @@ const BtcTaskList = () => { // Rename the function to start with an uppercase le
 
   return (
     <div className='text-start'>
-    {/* <ToastContainer /> */}
-    <h1 className='text-white'>Crypto Deposit Requests</h1>
-    <span className='text-warning mb-1'><FontAwesomeIcon className='mx-2' icon={faInfoCircle} />This is where all your clients' pending deposits are. You can approve it or deny it and it would show up as transaction successful or denied on their side depending on what you choose!</span>
-    <div className="custom-task-list d-block">
-  <>
-    {btcTx.map((tx) => ( 
-      <div key={tx.id} className="custom-task-card text-dark">
-        {/* Display transaction details */}
-        <p><span className='fw-bold'>Transaction ID:</span> {tx.paymentID}</p>
-        <p><span className='fw-bold'>Amount:</span> {tx.price_amount}</p>
-        <p><span className='fw-bold'>Status:</span> {tx.payment_status}</p>
-        <p><span className='fw-bold'>User ID:</span> {tx.userID}</p>
-        <p><span className='fw-bold'>Username:</span> {tx.username}</p>
-        <p><span className='fw-bold'>Time of payment:</span>{new Date(tx.timestamp).toLocaleDateString()}</p>
-        <p><span className='fw-bold'>Payment Description:</span> {tx.description}</p>
-        
-        {/* Buttons to change payment status */}
-        {isLoading ? (
-                    <Spinner animation="border" size="sm" variant="primary" />
-                  ) : (
-                    <div className='d-flex justify-content-between align-items-center'>
-        <button className='btn btn-success' onClick={() => changePaymentStatus(tx.paymentID, 'success', tx.userID, tx.price_amount, tx._id)}>Mark as Approved</button>
-        <button className='btn btn-danger' onClick={() => changePaymentStatus(tx.paymentID, 'failed', tx.userID, tx.price_amount, tx._id)}>Mark as Declined</button>
-        </div>
-                  )}
+      {/* <ToastContainer /> */}
+      <h1 className='text-white'>Crypto Deposit Requests</h1>
+      <span className='text-warning mb-1'><FontAwesomeIcon className='mx-2' icon={faInfoCircle} />This is where all your clients' pending deposits are. You can approve it or deny it and it would show up as transaction successful or denied on their side depending on what you choose!</span>
+      <div className="custom-task-list d-block">
+        <>
+          {btcTx.map((tx) => (
+            <div key={tx.id} className="custom-task-card text-dark">
+              {/* Display transaction details */}
+              <p><span className='fw-bold'>Transaction ID:</span> {tx.paymentID}</p>
+              <p><span className='fw-bold'>Amount:</span> {tx.price_amount}</p>
+              <p><span className='fw-bold'>Status:</span> {tx.payment_status}</p>
+              <p><span className='fw-bold'>User ID:</span> {tx.userID}</p>
+              <p><span className='fw-bold'>Username:</span> {tx.username}</p>
+              <p><span className='fw-bold'>Time of payment:</span>{new Date(tx.timestamp).toLocaleDateString()}</p>
+              <p><span className='fw-bold'>Payment Description:</span> {tx.description}</p>
+
+              {/* Buttons to change payment status */}
+              {isLoading ? (
+                <Spinner animation="border" size="sm" variant="primary" />
+              ) : (
+                <div className='d-flex justify-content-between align-items-center'>
+                  <button className='btn btn-success' onClick={() => changePaymentStatus(tx.paymentID, 'success', tx.userID, tx.price_amount, tx._id)}>Mark as Approved</button>
+                  <button className='btn btn-danger' onClick={() => changePaymentStatus(tx.paymentID, 'failed', tx.userID, tx.price_amount, tx._id)}>Mark as Declined</button>
+                </div>
+              )}
+            </div>
+          ))}
+        </>
       </div>
-    ))}
-  </> 
     </div>
-  </div>
   );
 };
 
