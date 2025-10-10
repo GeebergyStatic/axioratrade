@@ -24,7 +24,7 @@ function Navbar() {
       const auth = getAuth();
       signOut(auth)
         .then(() => {
-          console.log('User signed out');
+          // console.log('User signed out');
           // You can also redirect the user or perform other actions upon sign-out.
         })
         .catch((error) => {

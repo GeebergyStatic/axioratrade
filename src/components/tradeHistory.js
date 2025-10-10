@@ -27,7 +27,6 @@ const TradesTable = () => {
                     `https://axioratrade.onrender.com/api/getTrade/${userId}`
                 );
 
-                console.log("Fetched trades:", response.data, userId);
                 if (response.data.success) {
                     setTrades(response.data.trades);
                 } else {

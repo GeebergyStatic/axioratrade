@@ -23,24 +23,18 @@ const TradablePanel = ({
     useEffect(() => {
         const fetchSymbols = async () => {
             try {
-                console.log('Checking cache...');
                 const cached = localStorage.getItem('symbols');
                 if (cached) {
                     const symbolsArray = JSON.parse(cached);
                     if (symbolsArray.length > 0) {
-                        console.log('Loaded symbols from cache:', symbolsArray.slice(0, 5), '...');
                         setSymbols(symbolsArray);
                         setSelectedSymbol(symbolsArray[0]);
                         return;
                     }
                 }
-
-                console.log('Fetching from API:', apiSymbolsUrl);
                 const resp = await axios.get(apiSymbolsUrl);
-                console.log('API raw response:', resp.data);
 
                 const symbolsArray = resp.data?.data?.map(item => item.symbol) || [];
-                console.log('Extracted symbols:', symbolsArray.slice(0, 10));
 
                 if (symbolsArray.length === 0) {
                     console.warn('No symbols found in API response.');
@@ -51,7 +45,6 @@ const TradablePanel = ({
                 setSelectedSymbol(symbolsArray[0]);
 
                 localStorage.setItem('symbols', JSON.stringify(symbolsArray));
-                console.log('Symbols cached successfully.');
             } catch (err) {
                 console.error('Error fetching symbols:', err);
             }

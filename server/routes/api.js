@@ -6,7 +6,7 @@ const User = require('../model');
 const { MongoClient } = require('mongodb');
 const cron = require('node-cron');
 const axios = require('axios');
-
+const { sendWelcomeEmail } = require('../email');
 const uri = process.env.uri;
 
 async function connectToMongoDB() {
@@ -25,28 +25,40 @@ connectToMongoDB();
 
 
 // create user
-router.post("/createUser", async (request, response) => {
-  const userDetails = new User(request.body);
-  const userId = userDetails.userId;
-
+router.post("/createUser", async (req, res) => {
   try {
-    const doesDataExist = await User.findOne({ userId: userId });
-    if (!doesDataExist) {
-      await userDetails.save();
-      response.send({ "userDetails": userDetails, "status": "success" });
-    }
-    else {
-      const reply = {
-        "status": "failed",
-        "message": "User data already exists",
-      }
-      response.send(reply);
+    const userDetails = new User(req.body);
+    const { userId, email, name } = req.body;
+
+    const existingUser = await User.findOne({ userId });
+
+    if (existingUser) {
+      return res.json({
+        status: "failed",
+        message: "User data already exists",
+      });
     }
 
+    await userDetails.save();
+
+    // Send welcome email (non-blocking)
+    sendWelcomeEmail({ email, name }).catch((err) =>
+      console.error("Failed to send welcome email:", err)
+    );
+
+    return res.json({
+      status: "success",
+      userDetails,
+    });
   } catch (error) {
-    response.status(500).send(error);
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
   }
 });
+
 
 router.post("/addUser", async (request, response) => {
   const userDetails = new User(request.body);

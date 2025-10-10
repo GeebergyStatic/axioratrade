@@ -23,7 +23,6 @@ function Home() {
   const { userData, currentUser } = useUserContext();
   const currencySymbol = userData.currencySymbol;
   const [isCheckLoading, setIsCheckLoading] = useState(false);
-  console.log(userData.deposit, userData.profit, userData.totalWithdrawn)
 
   const CustomLink = ({ to, children, ...props }) => {
     const resolvedPath = useResolvedPath(to);

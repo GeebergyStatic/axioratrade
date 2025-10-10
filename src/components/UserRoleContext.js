@@ -67,6 +67,7 @@ export const UserProvider = ({ children }) => {
             phoneNo: data.number,
             role: data.role,
             isUserActive: data.isUserActive,
+            isOwner: data.isOwner,
             hasPaid: data.hasPaid,
             deposit: data.deposit,
             profit: data.profit,
@@ -80,7 +81,6 @@ export const UserProvider = ({ children }) => {
           });
         }
 
-        console.log("User data fetched successfully:", data);
         clearTimeout(loadingTimeout.current);
       } catch (error) {
         console.error("Error fetching user data:", error.message);

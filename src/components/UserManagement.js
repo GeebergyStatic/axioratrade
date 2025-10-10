@@ -13,6 +13,7 @@ const UserManagement = () => {
   const { userData } = useUserContext();
   const [searchTerm, setSearchTerm] = useState(''); // ✅ New state
   const agentID = userData.agentID;
+  const isOwner = userData.isOwner;
   const [isLoading, setIsLoading] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -123,7 +124,7 @@ const UserManagement = () => {
   return (
     <div style={containerStyle}>
       <Link to='/'><i class="fa fa-arrow-left"></i> Back to home</Link>
-      <WalletManager />
+      {isOwner && <WalletManager />}
       <h1 className='mt-5'>User Management</h1>
       <span className='text-warning mb-1'><FontAwesomeIcon className='mx-2' icon={faInfoCircle} />You can edit and load your clients' accounts from here!</span>
       {/* ✅ Search Bar */}

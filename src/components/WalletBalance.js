@@ -178,7 +178,6 @@ const WalletBalance = (props) => {
 
   const handleDebitUser = async (amount) => {
     if (userBalance && amount && userBalance >= amount) {
-      console.log(`Debiting user for amount: ${amount}`);
       try {
         const response = await axios.post(
           'https://axioratrade.onrender.com/api/debitUser',
@@ -189,7 +188,6 @@ const WalletBalance = (props) => {
         );
 
         if (response.status === 200) {
-          console.log('User debited successfully!');
           return true; // Indicate success
         } else {
           throw new Error('Failed to debit user.');
