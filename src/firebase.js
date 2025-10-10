@@ -55,7 +55,7 @@ const db = getFirestore(app);
 const storage = getStorage();
 const realTimeDb = getDatabase(app)
 
-export { auth, db, storage, realTimeDb, app };
+export { db, storage, realTimeDb, app };
 // Second initialization
 export const authApp = initializeApp(authConfig, "authApp");
 export const auth = getAuth(authApp);
