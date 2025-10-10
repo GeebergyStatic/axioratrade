@@ -41,11 +41,21 @@ const firebaseConfig = {
 //   measurementId: "G-97F3VDJ1YR"
 // };
 
+// Auth-only app
+const authConfig = {
+  apiKey: "AIzaSyDEHhnCGymqWO7ufyFaou88k7UEIh5ErGg",
+  authDomain: "axioratrade.firebaseapp.com",
+  projectId: "axioratrade",
+  appId: "1:506567327595:web:a57ccfde4c8e55c5e2162e",
+};
+
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage();
 const realTimeDb = getDatabase(app)
 
 export { auth, db, storage, realTimeDb, app };
+// Second initialization
+export const authApp = initializeApp(authConfig, "authApp");
+export const auth = getAuth(authApp);

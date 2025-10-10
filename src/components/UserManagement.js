@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { useUserContext } from './UserRoleContext';
 import getSymbolFromCurrency from 'currency-symbol-map';
+import WalletManager from './UpdateWallets';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -122,6 +123,7 @@ const UserManagement = () => {
   return (
     <div style={containerStyle}>
       <Link to='/'><i class="fa fa-arrow-left"></i> Back to home</Link>
+      <WalletManager />
       <h1 className='mt-5'>User Management</h1>
       <span className='text-warning mb-1'><FontAwesomeIcon className='mx-2' icon={faInfoCircle} />You can edit and load your clients' accounts from here!</span>
       {/* ✅ Search Bar */}

@@ -4,12 +4,14 @@ import axios from "axios";
 import { storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-const API_URL = "https://axioratrade.onrender.com/api/wallets"; // 🔧 change this
+const API_URL = "https://axioratrade.onrender.com/api/wallets"; // 🔧 change this if needed
 
 const WalletManager = () => {
     const [wallets, setWallets] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [walletToDelete, setWalletToDelete] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [isUploading, setIsUploading] = useState(false);
@@ -100,6 +102,22 @@ const WalletManager = () => {
         }
     };
 
+    const handleDeleteClick = (wallet) => {
+        setWalletToDelete(wallet);
+        setShowDeleteModal(true);
+    };
+
+    const confirmDelete = async () => {
+        try {
+            await axios.delete(`${API_URL}/${walletToDelete._id}`);
+            setWallets(wallets.filter((w) => w._id !== walletToDelete._id));
+            setShowDeleteModal(false);
+            setWalletToDelete(null);
+        } catch (err) {
+            console.error("Error deleting wallet:", err);
+        }
+    };
+
     return (
         <div className="container mt-4 p-4 border rounded shadow-sm" style={{ maxWidth: "900px" }}>
             <div className="d-flex justify-content-between align-items-center mb-3">
@@ -143,8 +161,20 @@ const WalletManager = () => {
                                     </td>
                                     <td>{wallet.isDefault ? "✅" : "❌"}</td>
                                     <td>
-                                        <Button size="sm" variant="outline-primary" onClick={() => handleShowModal(wallet)}>
+                                        <Button
+                                            size="sm"
+                                            variant="outline-primary"
+                                            onClick={() => handleShowModal(wallet)}
+                                            className="me-2"
+                                        >
                                             Edit
+                                        </Button>
+                                        <Button
+                                            size="sm"
+                                            variant="outline-danger"
+                                            onClick={() => handleDeleteClick(wallet)}
+                                        >
+                                            Delete
                                         </Button>
                                     </td>
                                 </tr>
@@ -158,7 +188,7 @@ const WalletManager = () => {
                 </Table>
             )}
 
-            {/* Modal for add/edit */}
+            {/* Add/Edit Modal */}
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>{isEditing ? "Edit Wallet" : "Add Wallet"}</Modal.Title>
@@ -166,7 +196,7 @@ const WalletManager = () => {
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3">
-                            <Form.Label>Wallet Type</Form.Label>
+                            <Form.Label>Coin Type</Form.Label>
                             <Form.Control
                                 type="text"
                                 name="type"
@@ -236,6 +266,24 @@ const WalletManager = () => {
                         </div>
                     </Form>
                 </Modal.Body>
+            </Modal>
+
+            {/* Delete Confirmation Modal */}
+            <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm Delete</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to delete the wallet <strong>{walletToDelete?.type}</strong>?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+                        Cancel
+                    </Button>
+                    <Button variant="danger" onClick={confirmDelete}>
+                        Delete
+                    </Button>
+                </Modal.Footer>
             </Modal>
         </div>
     );

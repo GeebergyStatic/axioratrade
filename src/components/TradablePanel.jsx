@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from "react-toastify";
 import { useUserContext } from './UserRoleContext';
+import getSymbolFromCurrency from 'currency-symbol-map';
+
 
 const TradablePanel = ({
     apiSymbolsUrl,
@@ -58,47 +60,107 @@ const TradablePanel = ({
         fetchSymbols();
     }, [apiSymbolsUrl]);
 
+
+    function formatCurrency(amount, currencyCode = 'USD', locale = 'en-US') {
+        if (amount === null || amount === undefined) amount = 0;
+
+        try {
+            return new Intl.NumberFormat(locale, {
+                style: 'currency',
+                currency: currencyCode,
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            }).format(amount);
+        } catch (error) {
+            // fallback if currency code is invalid
+            const symbol = getSymbolFromCurrency(currencyCode) || '';
+            return `${symbol}${Number(amount).toLocaleString(locale, { minimumFractionDigits: 2 })}`;
+        }
+    }
+
     const handleTrade = async (type) => {
+        // ✅ Validation checks
+        if (!selectedSymbol) {
+            toast.error("Please select an asset before trading.", {
+                toastId: "toast-symbol",
+                className: "custom-toast",
+            });
+            return;
+        }
+
+        if (!investAmount || isNaN(investAmount)) {
+            toast.error("Please enter a valid investment amount.", {
+                toastId: "toast-invest",
+                className: "custom-toast",
+            });
+            return;
+        }
+
+        if (parseFloat(investAmount) < 50) {
+            toast.error(`Minimum investment is ${formatCurrency(50, currencySymbol)}.`, {
+                toastId: "toast-min",
+                className: "custom-toast",
+            });
+            return;
+        }
+
+        if (!leverage || leverage <= 0) {
+            toast.error("Please select a valid leverage value.", {
+                toastId: "toast-lev",
+                className: "custom-toast",
+            });
+            return;
+        }
+
+        if (!expiration || expiration <= 0) {
+            toast.error("Please choose a valid expiration time.", {
+                toastId: "toast-exp",
+                className: "custom-toast",
+            });
+            return;
+        }
+
         const payload = {
             userId,
             symbol: selectedSymbol,
-            invest: parseFloat(investAmount) || 0,
+            invest: parseFloat(investAmount),
             leverage,
             expiration,
-            tradeType: type
+            tradeType: type,
         };
 
         setIsSubmitting(true);
+
         try {
             const res = await fetch("https://axioratrade.onrender.com/api/saveTrade", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(payload),
             });
 
             const data = await res.json();
 
             if (data.success) {
-                // console.log("Trade saved:", data.trade);
-                toast.success('Trade executed successfully!', {
-                    toastId: 'toast-st-success',
-                    className: 'custom-toast',
+                toast.success("Trade executed successfully!", {
+                    toastId: "toast-st-success",
+                    className: "custom-toast",
                 });
             } else {
-                // Not enough profit or other error
-                toast.error(data.message +
+                toast.error(
+                    data.message +
                     (data.availableDeposit !== undefined
                         ? ` (Available balance: ${data.availableDeposit})`
-                        : ""), {
-                    toastId: 'toast-st-fail2',
-                    className: 'custom-toast',
-                });
+                        : ""),
+                    {
+                        toastId: "toast-st-fail2",
+                        className: "custom-toast",
+                    }
+                );
             }
         } catch (err) {
-            // console.error("Trade submit failed:", err);
-            toast.error('Failed to execute trade!', {
-                toastId: 'toast-st-fail1',
-                className: 'custom-toast',
+            toast.error("Failed to execute trade!", {
+                toastId: "toast-st-fail1",
+                className: "custom-toast",
             });
         } finally {
             setIsSubmitting(false);
