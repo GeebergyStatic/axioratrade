@@ -43,10 +43,10 @@ const firebaseConfig = {
 
 // Auth-only app
 const authConfig = {
-  apiKey: "AIzaSyDEHhnCGymqWO7ufyFaou88k7UEIh5ErGg",
-  authDomain: "axioratrade.firebaseapp.com",
-  projectId: "axioratrade",
-  appId: "1:506567327595:web:a57ccfde4c8e55c5e2162e",
+  apiKey: `${process.env.CUSTOM_FIREBASE_API_KEY}`,
+  authDomain: `${process.env.CUSTOM_FIREBASE_AUTH_DOMAIN}`,
+  projectId: `${process.env.CUSTOM_FIREBASE_PROJECT_ID}`,
+  appId: `${process.env.CUSTOM_FIREBASE_APP_ID}`,
 };
 
 const app = initializeApp(firebaseConfig);
