@@ -56,7 +56,7 @@ const EditUserModal = ({ user, onClose, onUserUpdated }) => {
             />
           </div>
           <div style={inputContainerStyle}>
-            <label style={labelStyle}>Deposit (In USD):</label>
+            <label style={labelStyle}>Deposit:</label>
             <input
               type="number"
               name="deposit"
@@ -66,21 +66,21 @@ const EditUserModal = ({ user, onClose, onUserUpdated }) => {
             />
           </div>
           <div style={inputContainerStyle}>
-            <label style={labelStyle}>Referrals Balance (In USD):</label>
+            <label style={labelStyle}>Profit:</label>
             <input
               type="number"
-              name="referralsBalance"
-              value={editedUser.referralsBalance}
+              name="profit"
+              value={editedUser.profit}
               onChange={handleChange}
               style={inputStyle}
             />
           </div>
           <div style={inputContainerStyle}>
-            <label style={labelStyle}>Referred Users:</label>
+            <label style={labelStyle}>Total Withdrawn:</label>
             <input
               type="number"
-              name="referredUsers"
-              value={editedUser.referredUsers}
+              name="totalWithdrawn"
+              value={editedUser.totalWithdrawn}
               onChange={handleChange}
               style={inputStyle}
             />
@@ -118,21 +118,11 @@ const EditUserModal = ({ user, onClose, onUserUpdated }) => {
             />
           </div>
           <div style={inputContainerStyle}>
-            <label style={labelStyle}>Balance (In USD):</label>
+            <label style={labelStyle}>Investment Plan:</label>
             <input
-              type="number"
-              name="balance"
-              value={editedUser.balance}
-              onChange={handleChange}
-              style={inputStyle}
-            />
-          </div>
-          <div style={inputContainerStyle}>
-            <label style={labelStyle}>Returns (In USD):</label>
-            <input
-              type="number"
-              name="returns"
-              value={editedUser.returns}
+              type="text"
+              name="lastPlan"
+              value={editedUser.lastPlan}
               onChange={handleChange}
               style={inputStyle}
             />

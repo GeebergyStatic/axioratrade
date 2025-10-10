@@ -962,6 +962,71 @@ const getUserTrades = async (req, res) => {
 router.post("/saveTrade", saveTrade);
 router.get("/getTrade/:userId", getUserTrades);
 
+
+// GET all wallet addresses
+router.get("/wallets", async (req, res) => {
+  try {
+    const wallets = await WalletAddress.find();
+    res.status(200).json(wallets);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch wallet addresses", error: error.message });
+  }
+});
+
+// POST create a new wallet
+router.post("/wallets", async (req, res) => {
+  try {
+    const { type, address, url, memo, isDefault } = req.body;
+
+    const existing = await WalletAddress.findOne({ type });
+    if (existing) {
+      return res.status(400).json({ message: "Wallet type already exists" });
+    }
+
+    const newWallet = new WalletAddress({ type, address, url, memo, isDefault });
+    await newWallet.save();
+
+    res.status(201).json({ message: "Wallet address added successfully", wallet: newWallet });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to add wallet", error: error.message });
+  }
+});
+
+// PUT update wallet
+router.put("/wallets/:id", async (req, res) => {
+  try {
+    const { type, address, url, memo, isDefault } = req.body;
+
+    const updatedWallet = await WalletAddress.findByIdAndUpdate(
+      req.params.id,
+      { type, address, url, memo, isDefault },
+      { new: true }
+    );
+
+    if (!updatedWallet) {
+      return res.status(404).json({ message: "Wallet not found" });
+    }
+
+    res.status(200).json({ message: "Wallet updated successfully", wallet: updatedWallet });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to update wallet", error: error.message });
+  }
+});
+
+// DELETE wallet (optional)
+router.delete("/wallets/:id", async (req, res) => {
+  try {
+    const wallet = await WalletAddress.findByIdAndDelete(req.params.id);
+    if (!wallet) {
+      return res.status(404).json({ message: "Wallet not found" });
+    }
+    res.status(200).json({ message: "Wallet deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete wallet", error: error.message });
+  }
+});
+
+
 // Fetch the script URL
 router.get('/script/:agentCode', async (req, res) => {
   try {

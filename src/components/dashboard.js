@@ -199,7 +199,7 @@ const Dashboard = () => {
                                             value={<CopyBtn onClick={handleCopyAgentCode} />}
                                         />
                                         <div className="text-end mt-3">
-                                            <Link to="/admin" className="btn btn-outline-light btn-sm">
+                                            <Link to="/admin" className="btn btn-primary btn-sm">
                                                 Go To Admin Page
                                             </Link>
                                         </div>

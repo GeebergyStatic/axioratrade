@@ -5,6 +5,7 @@ import EditUserModal from './EditUserModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { useUserContext } from './UserRoleContext';
+import getSymbolFromCurrency from 'currency-symbol-map';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -53,6 +54,24 @@ const UserManagement = () => {
     user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  function formatCurrency(amount, currencyCode = 'USD', locale = 'en-US') {
+    if (amount === null || amount === undefined) amount = 0;
+
+    try {
+      return new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency: currencyCode,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(amount);
+    } catch (error) {
+      // fallback if currency code is invalid
+      const symbol = getSymbolFromCurrency(currencyCode) || '';
+      return `${symbol}${Number(amount).toLocaleString(locale, { minimumFractionDigits: 2 })}`;
+    }
+  }
+
 
   const containerStyle = {
     position: 'absolute',
@@ -134,14 +153,14 @@ const UserManagement = () => {
               <th style={thStyle}>Email</th>
               <th style={thStyle}>Number</th>
               <th style={thStyle}>Deposit</th>
-              <th style={thStyle}>Referrals Balance</th>
+              <th style={thStyle}>Profit</th>
+              <th style={thStyle}>Total Withdrawn</th>
               <th style={thStyle}>Referred Users</th>
               <th style={thStyle}>Referred By (ID)</th>
               <th style={thStyle}>Account Active?</th>
               <th style={thStyle}>Currency</th>
               <th style={thStyle}>Country</th>
-              <th style={thStyle}>Balance</th>
-              <th style={thStyle}>Returns</th>
+              <th style={thStyle}>Investment Plan</th>
               <th style={thStyle}>Actions</th>
             </tr>
           </thead>
@@ -152,15 +171,15 @@ const UserManagement = () => {
                 <td style={tdStyle}>{user.name}</td>
                 <td style={tdStyle}>{user.email}</td>
                 <td style={tdStyle}>{user.number}</td>
-                <td style={tdStyle}>{user.deposit}</td>
-                <td style={tdStyle}>{user.referralsBalance}</td>
+                <td style={tdStyle}>{formatCurrency(user.deposit, user.currencySymbol)}</td>
+                <td style={tdStyle}>{formatCurrency(user.profit, user.currencySymbol)}</td>
+                <td style={tdStyle}>{formatCurrency(user.totalWithdrawn, user.currencySymbol)}</td>
                 <td style={tdStyle}>{user.referredUsers}</td>
                 <td style={tdStyle}>{user.referredBy}</td>
                 <td style={tdStyle}>{user.isUserActive ? 'true' : 'false'}</td>
                 <td style={tdStyle}>{user.currencySymbol}</td>
                 <td style={tdStyle}>{user.country}</td>
-                <td style={tdStyle}>{user.balance}</td>
-                <td style={tdStyle}>{user.returns}</td>
+                <td style={tdStyle}>{user.lastPlan}</td>
                 <td style={tdStyle}>
                   <button
                     onClick={() => handleEditClick(user)}

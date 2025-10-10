@@ -12,23 +12,22 @@ dayjs.extend(relativeTime);
 
 const TradesTable = () => {
     const { userData } = useUserContext();
-    const userId = userData?.userId;
+    const userId = userData?.userID;
     const [trades, setTrades] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (!userId) return;
-
         const fetchTrades = async () => {
             setLoading(true);
             setError(null);
 
             try {
                 const response = await axios.get(
-                    `https://axioratrade.onrender.com/api/getUserTrades/${userId}`
+                    `https://axioratrade.onrender.com/api/getTrade/${userId}`
                 );
 
+                console.log("Fetched trades:", response.data, userId);
                 if (response.data.success) {
                     setTrades(response.data.trades);
                 } else {
@@ -52,8 +51,15 @@ const TradesTable = () => {
     };
 
     return (
-        <div className='container-fluid' style={{ background: '#f4f4f5', height: '100%', width: '100%', position: 'relative', paddingBottom: '80px' }}>
-            <div className="transaction-list p-4 rounded shadow-lg" style={{ maxWidth: '900px', margin: '0 auto', background: '#fff', boxShadow: '0 4px 8px rgba(0,0,0,0.2)' }}>
+        <div className='container-fluid' style={{ background: '#f4f4f5', height: '100%', width: '100%', position: 'absolute', overflowY: 'auto', overflowX: 'hidden', paddingBottom: '80px' }}>
+            <div className="transaction-list p-4 rounded shadow-lg" style={{
+                maxWidth: '900px',
+                marginLeft: '19%',
+                background: '#f4f4f5',
+                boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+            }}><h2 className="text-center text-dark mb-4" style={{ borderBottom: '2px solid #3A7BD5', paddingBottom: '10px' }}>
+                    Trade History
+                </h2>
                 <div className="table-responsive">
                     <table className="table table-striped table-hover">
                         <thead className="thead-dark">
@@ -84,20 +90,40 @@ const TradesTable = () => {
                                     <td colSpan="7" className="text-center">No trades found.</td>
                                 </tr>
                             ) : (
-                                trades.map((trade) => (
-                                    <tr key={trade._id}>
-                                        <td>{trade.symbol}</td>
-                                        <td>{trade.invest}</td>
-                                        <td>{trade.leverage}</td>
-                                        <td>{trade.expiration} ms</td>
-                                        <td>{trade.tradeType}</td>
-                                        <td>{calculateTradeStatus(trade.createdAt, trade.expiration)}</td>
-                                        <td>{dayjs(trade.createdAt).format("YYYY-MM-DD HH:mm")}</td>
-                                    </tr>
-                                ))
+                                trades.map((trade) => {
+                                    const status = calculateTradeStatus(trade.createdAt, trade.expiration);
+                                    return (
+                                        <tr key={trade._id}>
+                                            <td>{trade.symbol}</td>
+                                            <td>{trade.invest}</td>
+                                            <td>{trade.leverage}</td>
+                                            <td>{trade.expiration} ms</td>
+                                            <td
+                                                style={{
+                                                    color: trade.tradeType.toLowerCase() === "buy" ? "green" : "red",
+                                                    fontWeight: "bold"
+                                                }}
+                                            >
+                                                {trade.tradeType}
+                                            </td>
+
+                                            <td>
+                                                <span
+                                                    className={`badge ${status === "Ongoing" ? "bg-warning text-dark" : "bg-secondary"
+                                                        }`}
+                                                >
+                                                    {status}
+                                                </span>
+                                            </td>
+
+                                            <td>{dayjs(trade.createdAt).format("DD/MM/YY")}</td>
+                                        </tr>
+                                    );
+                                })
                             )}
                         </tbody>
                     </table>
+
                 </div>
             </div>
             <ToastContainer />

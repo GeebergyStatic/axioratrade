@@ -79,9 +79,18 @@ function Navbar() {
       >
         <ul className="nav flex-column flex-lg-row align-items-center w-100">
           {/* Branding */}
-          <h5 className="text-dark text-start mb-2 mb-lg-0 d-none d-lg-block">
-            Axiora<span style={{ color: "#3A7BD5" }}>Trade</span>
-          </h5>
+          <div className="d-flex align-items-center d-none d-lg-flex">
+            <img
+              src="../axiora-logo.png"
+              alt="AxioraTrade Logo"
+              style={{ width: "40px", height: "40px", objectFit: "contain", marginRight: "10px" }}
+            />
+            <h5 className="text-dark text-start mb-0">
+              Axiora<span style={{ color: "#3A7BD5" }}>Trade</span>
+            </h5>
+          </div>
+
+
           <hr className="my-2 d-block d-lg-none" />
 
           {/* Dashboard */}
