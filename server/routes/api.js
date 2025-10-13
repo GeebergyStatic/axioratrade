@@ -597,26 +597,27 @@ router.post('/createTransactions', async (req, res) => {
   try {
     const txDetails = req.body;
 
-    // Create a new transaction document
+    // Create and save the new transaction
     const newTransaction = new Transaction(txDetails);
     await newTransaction.save();
 
     // Update user's plan ONLY if `plan` exists in txDetails
-    if (txDetails.plan) {
-      await User.findByIdAndUpdate(
-        txDetails.userID,
-        { plan: txDetails.plan },
-        { new: true } // Return updated document (optional)
+    if (txDetails.plan && txDetails.userID) {
+      await User.findOneAndUpdate(
+        { userId: txDetails.userID }, // match user schema field name
+        { lastPlan: txDetails.plan },
+        { new: true }
       );
     }
 
     res.status(201).json({ message: 'Transaction document written' });
     console.log('Transaction added successfully');
   } catch (error) {
-    console.error('Error adding transaction document: ', error);
+    console.error('Error adding transaction document:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 
 router.get('/fetchWallets', async (req, res) => {
