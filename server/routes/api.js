@@ -121,6 +121,7 @@ const transactionSchema = new mongoose.Schema({
   transactionsType: String,
   paymentID: String,
   description: String,
+  plan: String,
 });
 
 // Create a model based on the schema
@@ -601,15 +602,6 @@ router.post('/createTransactions', async (req, res) => {
     const newTransaction = new Transaction(txDetails);
     await newTransaction.save();
 
-    // Update user's plan ONLY if `plan` exists in txDetails
-    if (txDetails.plan && txDetails.userID) {
-      await User.findOneAndUpdate(
-        { userId: txDetails.userID }, // match user schema field name
-        { lastPlan: txDetails.plan },
-        { new: true }
-      );
-    }
-
     res.status(201).json({ message: 'Transaction document written' });
     console.log('Transaction added successfully');
   } catch (error) {
@@ -722,6 +714,12 @@ router.put('/updatePaymentStatusAndDelete/:transactionId', async (req, res) => {
     const { transactionId } = req.params;
     const { newStatus, userId, amount } = req.body;
 
+    // Fetch the transaction first
+    const txDetails = await Transaction.findOne({ paymentID: transactionId });
+    if (!txDetails) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+
     // Update payment status
     await Transaction.findOneAndUpdate(
       { paymentID: transactionId },
@@ -729,14 +727,22 @@ router.put('/updatePaymentStatusAndDelete/:transactionId', async (req, res) => {
       { new: true }
     );
 
+    // Only update user's plan and deposit if payment succeeded
     if (newStatus === 'success') {
-      const currentUser = await User.findOne({ userId });
+      if (txDetails.plan && txDetails.userID) {
+        await User.findOneAndUpdate(
+          { userId: txDetails.userID },
+          { lastPlan: txDetails.plan },
+          { new: true }
+        );
+      }
 
+      const currentUser = await User.findOne({ userId });
       if (!currentUser) {
         return res.status(404).json({ error: 'User not found' });
       }
 
-      // Determine which fields to update
+      // Fields to update
       const updateFields = {
         isUserActive: true,
         referralRedeemed: true,
@@ -784,18 +790,41 @@ router.put('/updateUserBalance/:transactionId', async (request, response) => {
     const { transactionId } = request.params;
     const { newStatus, userId, price_amount } = request.body;
 
-    // Update payment status in the database
+    // Fetch the transaction first
+    const txDetails = await Transaction.findOne({ paymentID: transactionId });
+    if (!txDetails) {
+      return response.status(404).json({ error: 'Transaction not found' });
+    }
+
+    // Update payment status
     await Transaction.findOneAndUpdate(
       { paymentID: transactionId },
       { status: newStatus },
       { new: true }
     );
 
+    // Only update user's lastPlan and deposit if payment succeeded
+    if (newStatus === 'success') {
+      if (txDetails.plan && txDetails.userID) {
+        await User.findOneAndUpdate(
+          { userId: txDetails.userID },
+          { lastPlan: txDetails.plan },
+          { new: true }
+        );
+      }
 
-    // Delete the document
+      if (userId && price_amount) {
+        await User.updateOne(
+          { userId },
+          { $inc: { deposit: price_amount } }
+        );
+      }
+    }
+
+    // Delete callback document
     await PaymentCallback.deleteOne({ paymentID: transactionId });
 
-    response.sendStatus(200); // Respond with success status
+    response.sendStatus(200);
   } catch (error) {
     console.error('Error updating user balance and deleting document:', error);
     response.status(500).send('Error updating user balance and deleting document');
