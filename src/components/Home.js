@@ -38,7 +38,7 @@ function Home() {
   };
 
   const options = [
-    { to: "/investment_plans", icon: faArrowDown, label: "Add Deposit" },
+    { to: "/deposit", icon: faArrowDown, label: "Add Deposit" },
     { to: "/investment_plans", icon: faChartLine, label: "Invest" },
     { to: "/withdraw", icon: faMoneyBillWave, label: "Withdraw" },
     { to: "/profile", icon: faUser, label: "Profile" }
