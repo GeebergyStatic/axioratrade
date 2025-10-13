@@ -5,8 +5,9 @@
 
 # netlify.toml
 [build]
-command = "npm run build"
-publish = "build"
+  command = ""        # important: no build command
+  publish = "."       # or "build" if your HTML files are inside /build
+
 
 [dev]
 command = "npm start"
