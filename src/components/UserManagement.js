@@ -92,6 +92,7 @@ const UserManagement = () => {
     width: '100%',
     borderCollapse: 'collapse',
     marginTop: '20px',
+    marginBottom: '70px',
   };
 
   const thStyle = {
