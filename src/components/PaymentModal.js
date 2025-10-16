@@ -81,7 +81,7 @@ const PaymentModal = () => {
     10000: 'Expert',
     5000: 'Professional',
     2000: 'Gold',
-    300: 'Starter',
+    1000: 'Starter',
   };
 
   // Save BTC transaction with plan info
@@ -187,7 +187,7 @@ const PaymentModal = () => {
       10000: { name: 'Expert', setLoading: setIsDebitingExpert },
       5000: { name: 'Professional', setLoading: setIsDebitingProfessional },
       2000: { name: 'Gold', setLoading: setIsDebitingGold },
-      300: { name: 'Starter', setLoading: setIsDebitingStarter },
+      1000: { name: 'Starter', setLoading: setIsDebitingStarter },
     };
 
     const plan = planMap[amount] || { name: 'Unknown', setLoading: () => { } };
@@ -251,9 +251,9 @@ const PaymentModal = () => {
           <div className="payment-box">
             <PaymentBox
               title="Starter Plan"
-              amount={300}
-              saveCryptoTransaction={() => handleSaveTransaction(300)}
-              debitUser={() => handleDebitUser(300)}
+              amount={1000}
+              saveCryptoTransaction={() => handleSaveTransaction(1000)}
+              debitUser={() => handleDebitUser(1000)}
               paymentType={{ walletAddresses }}
               isDebiting={isDebitingStarter}
               perks={<>

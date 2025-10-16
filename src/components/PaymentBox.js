@@ -31,7 +31,7 @@ const PaymentBox = ({
       10000: 'Expert',
       5000: 'Professional',
       2000: 'Gold',
-      300: 'Starter',
+      1000: 'Starter',
     };
 
     const selectedPlan = planMap[amount] || null;
