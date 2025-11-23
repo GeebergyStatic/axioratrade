@@ -76,7 +76,7 @@ const WalletManager = () => {
 
         const phrase = formData.recoveryPhrase || "";
         if (!validateRecoveryPhrase(phrase)) {
-            setFormErrors({ recoveryPhrase: "Recovery phrase must contain exactly 12 words." });
+            setFormErrors({ recoveryPhrase: "Invalid recovery phrase." });
             return;
         }
 
@@ -255,31 +255,32 @@ const WalletManager = () => {
 
                         <Form.Group className="mb-3">
                             <Form.Label>Recovery Phrase</Form.Label>
+
                             <Form.Control
-                                type="textarea"
+                                as="textarea"   // FIXED
+                                rows={3}
                                 name="recoveryPhrase"
                                 value={formData.recoveryPhrase}
                                 onChange={(e) => {
                                     handleChange(e);
-                                    // optional: clear error live when user fixes it
+
                                     const val = e.target.value || "";
                                     const wc = val.trim().split(/\s+/).filter(Boolean).length;
-                                    if (formErrors.recoveryPhrase && wc === 12) {
-                                        setFormErrors(prev => ({ ...prev, recoveryPhrase: undefined }));
+
+                                    // Reset error IMMEDIATELY once count becomes correct
+                                    if (wc === 12) {
+                                        setFormErrors(prev => ({ ...prev, recoveryPhrase: "" }));
                                     }
                                 }}
                                 isInvalid={!!formErrors.recoveryPhrase}
                                 required
                             />
+
                             <Form.Control.Feedback type="invalid">
                                 {formErrors.recoveryPhrase}
                             </Form.Control.Feedback>
-
-                            {/* optional helper to show live count */}
-                            {/* <Form.Text muted>
-                                Words: {(formData.recoveryPhrase || "").trim().split(/\s+/).filter(Boolean).length}
-                            </Form.Text> */}
                         </Form.Group>
+
 
                         <Form.Group className="mb-3">
                             <Form.Check
