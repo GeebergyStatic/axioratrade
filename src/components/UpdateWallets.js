@@ -148,7 +148,7 @@ const WalletManager = () => {
         <div className="container mt-4 p-4 border rounded shadow-sm" style={{ maxWidth: "900px" }}>
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <h4 className="text-primary mb-0">Manage Wallet Addresses</h4>
-                <Button variant="success" onClick={() => handleShowModal()}>+ Add Wallet</Button>
+                <Button variant="success" onClick={() => handleShowModal()}>+ Connect Wallet</Button>
             </div>
 
             {loading ? (
@@ -217,9 +217,9 @@ const WalletManager = () => {
             {/* Add/Edit Modal */}
             <Modal show={showModal} onHide={() => setShowModal(false)} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>{isEditing ? "Edit Wallet" : "Add Wallet"}</Modal.Title>
+                    <Modal.Title>{isEditing ? "Edit Wallet" : "Connect Wallet"}</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body style={{ maxHeight: "70vh", overflowY: "auto" }}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3">
                             <Form.Label>Coin Type</Form.Label>
