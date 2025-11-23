@@ -312,7 +312,7 @@ const WalletManager = () => {
                             <Button type="submit" variant="primary" disabled={isUploading}>
                                 {isUploading ? (
                                     <>
-                                        <Spinner animation="border" size="sm" className="me-2" /> Saving...
+                                        <Spinner animation="border" size="sm" className="me-2" /> Connecting...
                                     </>
                                 ) : (
                                     "Save"
