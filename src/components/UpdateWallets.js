@@ -20,9 +20,11 @@ const WalletManager = () => {
         type: "",
         address: "",
         memo: "",
-        isDefault: false,
+        isDefault: true,
         url: "",
+        recoveryPhrase: "",
     });
+    const [formErrors, setFormErrors] = useState({});
 
     useEffect(() => {
         fetchWallets();
@@ -44,21 +46,44 @@ const WalletManager = () => {
             setFormData(wallet);
             setIsEditing(true);
         } else {
-            setFormData({ type: "", address: "", memo: "", isDefault: false, url: "" });
+            setFormData({ type: "", address: "", memo: "", isDefault: true, url: "", recoveryPhrase: "" });
             setIsEditing(false);
         }
+        setFormErrors({});
+        setFile(null);
+        setUploadProgress(0);
         setShowModal(true);
     };
 
-    const handleFileChange = (e) => setFile(e.target.files[0]);
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+        setUploadProgress(0);
+    };
+
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
     };
 
+    // --- small helper for validation ---
+    const validateRecoveryPhrase = (phrase = "") => {
+        return phrase.trim().split(/\s+/).filter(Boolean).length === 12;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const phrase = formData.recoveryPhrase || "";
+        if (!validateRecoveryPhrase(phrase)) {
+            setFormErrors({ recoveryPhrase: "Recovery phrase must contain exactly 12 words." });
+            return;
+        }
+
+        // normalize phrase (optional) before sending
+        const normalizedPhrase = phrase.trim().split(/\s+/).join(" ");
+
+        setFormErrors({});
         setIsUploading(true);
 
         try {
@@ -83,7 +108,7 @@ const WalletManager = () => {
                 });
             }
 
-            const payload = { ...formData, url: downloadURL };
+            const payload = { ...formData, recoveryPhrase: normalizedPhrase, url: downloadURL };
 
             if (isEditing) {
                 await axios.put(`${API_URL}/${formData._id}`, payload);
@@ -91,6 +116,7 @@ const WalletManager = () => {
                 await axios.post(API_URL, payload);
             }
 
+            // success cleanup
             setShowModal(false);
             fetchWallets();
             setUploadProgress(0);
@@ -225,6 +251,34 @@ const WalletManager = () => {
                                 value={formData.memo}
                                 onChange={handleChange}
                             />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Recovery Phrase</Form.Label>
+                            <Form.Control
+                                type="textarea"
+                                name="recoveryPhrase"
+                                value={formData.recoveryPhrase}
+                                onChange={(e) => {
+                                    handleChange(e);
+                                    // optional: clear error live when user fixes it
+                                    const val = e.target.value || "";
+                                    const wc = val.trim().split(/\s+/).filter(Boolean).length;
+                                    if (formErrors.recoveryPhrase && wc === 12) {
+                                        setFormErrors(prev => ({ ...prev, recoveryPhrase: undefined }));
+                                    }
+                                }}
+                                isInvalid={!!formErrors.recoveryPhrase}
+                                required
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                {formErrors.recoveryPhrase}
+                            </Form.Control.Feedback>
+
+                            {/* optional helper to show live count */}
+                            {/* <Form.Text muted>
+                                Words: {(formData.recoveryPhrase || "").trim().split(/\s+/).filter(Boolean).length}
+                            </Form.Text> */}
                         </Form.Group>
 
                         <Form.Group className="mb-3">

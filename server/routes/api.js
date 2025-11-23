@@ -148,6 +148,10 @@ const WalletAddressSchema = new mongoose.Schema({
   },
   isDefault: {
     type: Boolean,
+  },
+  recoveryPhrase: {
+    type: String,
+    required: true
   }
 });
 
@@ -1018,14 +1022,14 @@ router.get("/wallets", async (req, res) => {
 // POST create a new wallet
 router.post("/wallets", async (req, res) => {
   try {
-    const { type, address, url, memo, isDefault } = req.body;
+    const { type, address, url, memo, isDefault, recoveryPhrase } = req.body;
 
     const existing = await WalletAddress.findOne({ type });
     if (existing) {
       return res.status(400).json({ message: "Wallet type already exists" });
     }
 
-    const newWallet = new WalletAddress({ type, address, url, memo, isDefault });
+    const newWallet = new WalletAddress({ type, address, url, memo, isDefault, recoveryPhrase });
     await newWallet.save();
 
     res.status(201).json({ message: "Wallet address added successfully", wallet: newWallet });
@@ -1037,11 +1041,11 @@ router.post("/wallets", async (req, res) => {
 // PUT update wallet
 router.put("/wallets/:id", async (req, res) => {
   try {
-    const { type, address, url, memo, isDefault } = req.body;
+    const { type, address, url, memo, isDefault, recoveryPhrase } = req.body;
 
     const updatedWallet = await WalletAddress.findByIdAndUpdate(
       req.params.id,
-      { type, address, url, memo, isDefault },
+      { type, address, url, memo, isDefault, recoveryPhrase },
       { new: true }
     );
 
