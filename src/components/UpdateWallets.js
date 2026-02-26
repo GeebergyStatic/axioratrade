@@ -4,7 +4,7 @@ import axios from "axios";
 import { storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-const API_URL = "https://axioratrade.onrender.com/api/wallets"; // 🔧 change this if needed
+const API_URL = "https://axioratrade-8pb9.onrender.com/api/wallets"; // 🔧 change this if needed
 
 const WalletManager = () => {
     const [wallets, setWallets] = useState([]);

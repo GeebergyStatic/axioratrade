@@ -261,7 +261,7 @@ function SignUp(props) {
 
   // Helper function to create user in backend
   const createUserInBackend = async (payLoad) => {
-    return await fetchAPI('https://axioratrade.onrender.com/api/createUser', {
+    return await fetchAPI('https://axioratrade-8pb9.onrender.com/api/createUser', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -273,7 +273,7 @@ function SignUp(props) {
   // Helper function to update referrer data
   const updateReferrerData = async (referrerID) => {
     const userDetails = { userId: referrerID };
-    return await fetchAPI('https://axioratrade.onrender.com/api/updateInfo', {
+    return await fetchAPI('https://axioratrade-8pb9.onrender.com/api/updateInfo', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -284,12 +284,12 @@ function SignUp(props) {
 
   // Helper function to check if referral code exists
   const checkReferralCode = async (referralCode) => {
-    const data = await fetchAPI(`https://axioratrade.onrender.com/api/checkUserReferral/${referralCode}`);
+    const data = await fetchAPI(`https://axioratrade-8pb9.onrender.com/api/checkUserReferral/${referralCode}`);
     return data;
   };
 
   const checkAgentCode = async (agentCode) => {
-    const data = await fetchAPI(`https://axioratrade.onrender.com/api/checkAgentCode/${agentCode}`);
+    const data = await fetchAPI(`https://axioratrade-8pb9.onrender.com/api/checkAgentCode/${agentCode}`);
     return data;
   };
 

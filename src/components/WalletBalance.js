@@ -101,7 +101,7 @@ const WalletBalance = (props) => {
         username,
         description: 'Withdrawal',
       };
-      await fetch(`https://axioratrade.onrender.com/api/createTransactions`,
+      await fetch(`https://axioratrade-8pb9.onrender.com/api/createTransactions`,
         {
           method: 'POST',
           headers: {
@@ -146,7 +146,7 @@ const WalletBalance = (props) => {
         username,
         description: 'Withdrawal',
       };
-      await fetch(`https://axioratrade.onrender.com/api/saveCryptoPayments`,
+      await fetch(`https://axioratrade-8pb9.onrender.com/api/saveCryptoPayments`,
         {
           method: 'POST',
           headers: {
@@ -180,7 +180,7 @@ const WalletBalance = (props) => {
     if (userBalance && amount && userBalance >= amount) {
       try {
         const response = await axios.post(
-          'https://axioratrade.onrender.com/api/debitUser',
+          'https://axioratrade-8pb9.onrender.com/api/debitUser',
           {
             userId: userID,
             fee: parseFloat(amount), // Ensure fee is a number

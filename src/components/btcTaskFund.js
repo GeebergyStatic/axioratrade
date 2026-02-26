@@ -13,7 +13,7 @@ const BtcFundingList = () => { // Rename the function to start with an uppercase
 
   const fetchPendingBtcFundings = async () => {
     try {
-      const response = await fetch('https://axioratrade.onrender.com/api/getBtcFundings');
+      const response = await fetch('https://axioratrade-8pb9.onrender.com/api/getBtcFundings');
       const transactions = await response.json();
       setBtcTx(transactions);
     } catch (error) {
@@ -24,7 +24,7 @@ const BtcFundingList = () => { // Rename the function to start with an uppercase
   // change state of btc tasks (transactions and temp data);
   const updateUserBalance = async (transactionId, newStatus, userId, price_amount) => {
     try {
-      const response = await fetch(`https://axioratrade.onrender.com/api/updateUserBalance/${transactionId}`, {
+      const response = await fetch(`https://axioratrade-8pb9.onrender.com/api/updateUserBalance/${transactionId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

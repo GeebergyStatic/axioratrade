@@ -25,7 +25,7 @@ const UserManagement = () => {
     setIsLoading(true);
     try {
       // Include the agentID as a query parameter in the API request
-      const response = await axios.get(`https://axioratrade.onrender.com/api/users?agentID=${agentID}`);
+      const response = await axios.get(`https://axioratrade-8pb9.onrender.com/api/users?agentID=${agentID}`);
       setUsers(response.data); // Assuming response.data is an array of users
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -38,7 +38,7 @@ const UserManagement = () => {
   //   setIsLoading(true);
   //   try {
   //     // Include the agentID as a query parameter in the API request
-  //     const response = await axios.get(`https://axioratrade.onrender.com/api/users`);
+  //     const response = await axios.get(`https://axioratrade-8pb9.onrender.com/api/users`);
   //     setUsers(response.data); // Assuming response.data is an array of users
   //   } catch (error) {
   //     console.error('Error fetching users:', error);

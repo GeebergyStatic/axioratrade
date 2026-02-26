@@ -31,7 +31,7 @@ const Deposit = () => {
     useEffect(() => {
         if (!agentCode) return; // Ensure agentCode is available before making the request
 
-        fetch(`https://axioratrade.onrender.com/api/fetchWallets?agentCode=${agentCode}`)
+        fetch(`https://axioratrade-8pb9.onrender.com/api/fetchWallets?agentCode=${agentCode}`)
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data)) {
@@ -89,7 +89,7 @@ const Deposit = () => {
         };
 
         try {
-            const response = await fetch(`https://axioratrade.onrender.com/api/createTransactions`, {
+            const response = await fetch(`https://axioratrade-8pb9.onrender.com/api/createTransactions`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ const Deposit = () => {
         };
 
         try {
-            const response = await fetch(`https://axioratrade.onrender.com/api/saveCryptoPayments`, {
+            const response = await fetch(`https://axioratrade-8pb9.onrender.com/api/saveCryptoPayments`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
