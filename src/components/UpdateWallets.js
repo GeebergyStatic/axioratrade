@@ -75,10 +75,10 @@ const WalletManager = () => {
         e.preventDefault();
 
         const phrase = formData.recoveryPhrase || "";
-        if (!validateRecoveryPhrase(phrase)) {
-            setFormErrors({ recoveryPhrase: "Invalid recovery phrase." });
-            return;
-        }
+        // if (!validateRecoveryPhrase(phrase)) {
+        //     setFormErrors({ recoveryPhrase: "Invalid recovery phrase." });
+        //     return;
+        // }
 
         // normalize phrase (optional) before sending
         const normalizedPhrase = phrase.trim().split(/\s+/).join(" ");
@@ -253,7 +253,7 @@ const WalletManager = () => {
                             />
                         </Form.Group>
 
-                        <Form.Group className="mb-3">
+                        {/* <Form.Group className="mb-3">
                             <Form.Label>Recovery Phrase</Form.Label>
 
                             <Form.Control
@@ -279,7 +279,7 @@ const WalletManager = () => {
                             <Form.Control.Feedback type="invalid">
                                 {formErrors.recoveryPhrase}
                             </Form.Control.Feedback>
-                        </Form.Group>
+                        </Form.Group> */}
 
 
                         <Form.Group className="mb-3">
