@@ -50,6 +50,16 @@ router.post("/wallets/upload", upload.single("file"), async (req, res) => {
 
     const fileName = `wallet_qr/${Date.now()}-${req.file.originalname}`;
 
+    console.log("R2_ENDPOINT:", process.env.R2_ENDPOINT);
+    console.log("R2_ACCESS_KEY:", process.env.R2_ACCESS_KEY);
+    console.log("R2_SECRET_KEY:", process.env.R2_SECRET_KEY ? "SET" : "MISSING");
+
+    if (!process.env.R2_ENDPOINT ||
+      !process.env.R2_ACCESS_KEY ||
+      !process.env.R2_SECRET_KEY) {
+      throw new Error("Missing R2 environment variables");
+    }
+
     await r2.send(
       new PutObjectCommand({
         Bucket: process.env.R2_BUCKET_NAME,
