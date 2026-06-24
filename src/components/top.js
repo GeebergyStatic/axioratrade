@@ -42,12 +42,12 @@ const PaymentModal = () => {
           price_amount: price,
           price_currency: 'usd',
           pay_currency: selectedStarterValue,
-          ipn_callback_url: 'https://axioratrade-8pb9.onrender.com/api/crypto-callback',
+          ipn_callback_url: 'https://axioratrade-aqy8.onrender.com/api/crypto-callback',
           order_id: getUniqueId,
           order_description: 'Crypto Deposit'
         };
 
-        const response = await axios.post('https://axioratrade-8pb9.onrender.com/api/payment', { data });
+        const response = await axios.post('https://axioratrade-aqy8.onrender.com/api/payment', { data });
 
         const reference = uuidv4();
         if (price === 10000) {
@@ -106,12 +106,12 @@ const PaymentModal = () => {
             price_amount: fundAmount,
             price_currency: 'usd',
             pay_currency: selectedFundValue,
-            ipn_callback_url: 'https://axioratrade-8pb9.onrender.com/api/crypto-callback',
+            ipn_callback_url: 'https://axioratrade-aqy8.onrender.com/api/crypto-callback',
             order_id: getUniqueId,
             order_description: 'Crypto Deposit'
           };
 
-          const response = await axios.post('https://axioratrade-8pb9.onrender.com/api/payment', { data });
+          const response = await axios.post('https://axioratrade-aqy8.onrender.com/api/payment', { data });
 
           // Assuming the payment address is returned in the response
 
@@ -271,7 +271,7 @@ const PaymentModal = () => {
         transactionType: 'Deposit',
         paymentID,
       };
-      await fetch(`https://axioratrade-8pb9.onrender.com/api/createTransactions`,
+      await fetch(`https://axioratrade-aqy8.onrender.com/api/createTransactions`,
         {
           method: 'POST',
           headers: {
@@ -315,7 +315,7 @@ const PaymentModal = () => {
         price_amount,
         order_description
       };
-      await fetch(`https://axioratrade-8pb9.onrender.com/api/saveCryptoPayments`,
+      await fetch(`https://axioratrade-aqy8.onrender.com/api/saveCryptoPayments`,
         {
           method: 'POST',
           headers: {
@@ -360,7 +360,7 @@ const PaymentModal = () => {
     if (userBalance >= ticketFee && ticketFee !== null) {
       const addParticipant = async () => {
         try {
-          await fetch('https://axioratrade-8pb9.onrender.com/api/addParticipant', {
+          await fetch('https://axioratrade-aqy8.onrender.com/api/addParticipant', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

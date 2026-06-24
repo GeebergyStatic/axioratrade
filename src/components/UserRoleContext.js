@@ -46,7 +46,7 @@ export const UserProvider = ({ children }) => {
         }
 
         const response = await fetch(
-          `https://axioratrade-8pb9.onrender.com/api/userDetail/${userId}`
+          `https://axioratrade-aqy8.onrender.com/api/userDetail/${userId}`
         );
 
         if (!response.ok) {

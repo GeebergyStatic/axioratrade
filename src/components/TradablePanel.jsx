@@ -125,7 +125,7 @@ const TradablePanel = ({
         setIsSubmitting(true);
 
         try {
-            const res = await fetch("https://axioratrade-8pb9.onrender.com/api/saveTrade", {
+            const res = await fetch("https://axioratrade-aqy8.onrender.com/api/saveTrade", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),

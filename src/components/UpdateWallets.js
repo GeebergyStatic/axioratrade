@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Table, Spinner, ProgressBar } from "react-bootstrap";
 import axios from "axios";
-import { storage } from "../firebase";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-const API_URL = "https://axioratrade-8pb9.onrender.com/api/wallets"; // 🔧 change this if needed
+const API_URL = "https://axioratrade-aqy8.onrender.com/api/wallets"; // 🔧 change this if needed
 
 const WalletManager = () => {
     const [wallets, setWallets] = useState([]);
@@ -75,12 +73,6 @@ const WalletManager = () => {
         e.preventDefault();
 
         const phrase = formData.recoveryPhrase || "";
-        // if (!validateRecoveryPhrase(phrase)) {
-        //     setFormErrors({ recoveryPhrase: "Invalid recovery phrase." });
-        //     return;
-        // }
-
-        // normalize phrase (optional) before sending
         const normalizedPhrase = phrase.trim().split(/\s+/).join(" ");
 
         setFormErrors({});
@@ -88,27 +80,29 @@ const WalletManager = () => {
 
         try {
             let downloadURL = formData.url;
-            if (file) {
-                const storageRef = ref(storage, `wallet_qr/${Date.now()}_${file.name}`);
-                const uploadTask = uploadBytesResumable(storageRef, file);
 
-                await new Promise((resolve, reject) => {
-                    uploadTask.on(
-                        "state_changed",
-                        (snapshot) => {
-                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                            setUploadProgress(progress);
-                        },
-                        reject,
-                        async () => {
-                            downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                            resolve();
+            if (file) {
+                const uploadData = new FormData();
+                uploadData.append("file", file);
+
+                const uploadRes = await axios.post(
+                    `${API_URL}/upload`,
+                    uploadData,
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data"
                         }
-                    );
-                });
+                    }
+                );
+
+                downloadURL = uploadRes.data.url;
             }
 
-            const payload = { ...formData, recoveryPhrase: normalizedPhrase, url: downloadURL };
+            const payload = {
+                ...formData,
+                recoveryPhrase: normalizedPhrase,
+                url: downloadURL
+            };
 
             if (isEditing) {
                 await axios.put(`${API_URL}/${formData._id}`, payload);
@@ -116,7 +110,6 @@ const WalletManager = () => {
                 await axios.post(API_URL, payload);
             }
 
-            // success cleanup
             setShowModal(false);
             fetchWallets();
             setUploadProgress(0);

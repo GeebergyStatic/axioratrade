@@ -19,7 +19,7 @@ const BtcTaskList = () => { // Rename the function to start with an uppercase le
 
   const fetchPendingBtcDeposits = async (agentID) => {
     try {
-      const response = await axios.get(`https://axioratrade-8pb9.onrender.com/api/getBtcDeposits/${agentID}`);
+      const response = await axios.get(`https://axioratrade-aqy8.onrender.com/api/getBtcDeposits/${agentID}`);
       const transactions = response.data; // axios automatically parses JSON responses
       setBtcTx(transactions);
     } catch (error) {
@@ -29,7 +29,7 @@ const BtcTaskList = () => { // Rename the function to start with an uppercase le
 
   // const fetchPendingBtcDeposits = async () => {
   //   try {
-  //     const response = await axios.get(`https://axioratrade-8pb9.onrender.com/api/getBtcDeposits`);
+  //     const response = await axios.get(`https://axioratrade-aqy8.onrender.com/api/getBtcDeposits`);
   //     const transactions = response.data; // axios automatically parses JSON responses
   //     setBtcTx(transactions);
   //   } catch (error) {
@@ -42,7 +42,7 @@ const BtcTaskList = () => { // Rename the function to start with an uppercase le
   const changePaymentStatus = async (transactionId, newStatus, userId, amount, txId) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`https://axioratrade-8pb9.onrender.com/api/updatePaymentStatusAndDelete/${transactionId}`, {
+      const response = await fetch(`https://axioratrade-aqy8.onrender.com/api/updatePaymentStatusAndDelete/${transactionId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

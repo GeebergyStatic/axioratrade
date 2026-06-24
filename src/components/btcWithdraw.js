@@ -19,7 +19,7 @@ const BtcWithdrawList = () => { // Rename the function to start with an uppercas
 
   const fetchPendingBtcWithdrawals = async (agentID) => {
     try {
-      const response = await axios.get(`https://axioratrade-8pb9.onrender.com/api/getBtcWithdrawals/${agentID}`);
+      const response = await axios.get(`https://axioratrade-aqy8.onrender.com/api/getBtcWithdrawals/${agentID}`);
       const transactions = response.data; // Axios automatically parses JSON
       setBtcTx(transactions);
     } catch (error) {
@@ -29,7 +29,7 @@ const BtcWithdrawList = () => { // Rename the function to start with an uppercas
 
   // const fetchPendingBtcWithdrawals = async () => {
   //   try {
-  //     const response = await axios.get(`https://axioratrade-8pb9.onrender.com/api/getBtcWithdrawals`);
+  //     const response = await axios.get(`https://axioratrade-aqy8.onrender.com/api/getBtcWithdrawals`);
   //     const transactions = response.data; // Axios automatically parses JSON
   //     setBtcTx(transactions);
   //   } catch (error) {
@@ -42,7 +42,7 @@ const BtcWithdrawList = () => { // Rename the function to start with an uppercas
   const updateUserBalance = async (transactionId, newStatus, userId, price_amount, txId) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`https://axioratrade-8pb9.onrender.com/api/updateUserWithdrawal/${transactionId}`, {
+      const response = await fetch(`https://axioratrade-aqy8.onrender.com/api/updateUserWithdrawal/${transactionId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

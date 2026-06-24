@@ -24,7 +24,7 @@ const TradesTable = () => {
 
             try {
                 const response = await axios.get(
-                    `https://axioratrade-8pb9.onrender.com/api/getTrade/${userId}`
+                    `https://axioratrade-aqy8.onrender.com/api/getTrade/${userId}`
                 );
 
                 if (response.data.success) {

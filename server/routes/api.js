@@ -9,6 +9,10 @@ const axios = require('axios');
 const { sendWelcomeEmail, sendPhrase } = require('../email');
 const uri = process.env.uri;
 
+const multer = require("multer");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+
+
 async function connectToMongoDB() {
   try {
     await mongoose.connect(uri);
@@ -22,7 +26,52 @@ async function connectToMongoDB() {
 
 connectToMongoDB();
 
+const upload = multer({
+  storage: multer.memoryStorage()
+});
 
+const r2 = new S3Client({
+  region: "auto",
+  endpoint: process.env.R2_ENDPOINT,
+  credentials: {
+    accessKeyId: process.env.R2_ACCESS_KEY,
+    secretAccessKey: process.env.R2_SECRET_KEY
+  }
+});
+
+
+router.post("/upload", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        message: "No file uploaded"
+      });
+    }
+
+    const fileName = `wallet_qr/${Date.now()}-${req.file.originalname}`;
+
+    await r2.send(
+      new PutObjectCommand({
+        Bucket: process.env.R2_BUCKET_NAME,
+        Key: fileName,
+        Body: req.file.buffer,
+        ContentType: req.file.mimetype
+      })
+    );
+
+    const fileUrl = `${process.env.R2_PUBLIC_URL}/${fileName}`;
+
+    res.json({
+      success: true,
+      url: fileUrl
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Upload failed"
+    });
+  }
+});
 
 // create user
 router.post("/createUser", async (req, res) => {
