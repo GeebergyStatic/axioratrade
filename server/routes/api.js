@@ -40,7 +40,7 @@ const r2 = new S3Client({
 });
 
 
-router.post("/upload", upload.single("file"), async (req, res) => {
+router.post("/wallets/upload", upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({
