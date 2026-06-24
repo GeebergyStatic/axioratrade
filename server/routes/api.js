@@ -33,6 +33,7 @@ const upload = multer({
 const r2 = new S3Client({
   region: "auto",
   endpoint: process.env.R2_ENDPOINT,
+  forcePathStyle: true,
   credentials: {
     accessKeyId: process.env.R2_ACCESS_KEY,
     secretAccessKey: process.env.R2_SECRET_KEY
@@ -49,10 +50,6 @@ router.post("/wallets/upload", upload.single("file"), async (req, res) => {
     }
 
     const fileName = `wallet_qr/${Date.now()}-${req.file.originalname}`;
-
-    console.log("R2_ENDPOINT:", process.env.R2_ENDPOINT);
-    console.log("R2_ACCESS_KEY:", process.env.R2_ACCESS_KEY);
-    console.log("R2_SECRET_KEY:", process.env.R2_SECRET_KEY ? "SET" : "MISSING");
 
     if (!process.env.R2_ENDPOINT ||
       !process.env.R2_ACCESS_KEY ||
@@ -76,9 +73,13 @@ router.post("/wallets/upload", upload.single("file"), async (req, res) => {
       url: fileUrl
     });
   } catch (error) {
+    console.error("UPLOAD FAILED FULL ERROR:");
     console.error(error);
+
     res.status(500).json({
-      message: "Upload failed"
+      message: error.message,
+      name: error.name,
+      stack: error.stack
     });
   }
 });
